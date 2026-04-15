@@ -1,875 +1,218 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> سيرة ذاتية – عماد الغامدي</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>عماد الغامدي | سيرة ذاتية</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Handjet', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.8;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #38bdf8;
+}
+
+header p {
+    font-size: 1.4rem;
+    color: #94a3b8;
+}
+
+/* Sections */
+section {
+    margin: 60px 0;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #22c55e;
+}
+
+/* About */
+.about p {
+    font-size: 1.2rem;
+}
+
+/* Link */
+.profile-link a {
+    color: #facc15;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.profile-link a:hover {
+    text-decoration: underline;
+}
+
+/* Certificates Images */
+.certificates img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+}
+
+/* Projects */
+.projects a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.projects a:hover {
+    text-decoration: underline;
+}
+
+/* Services */
+.services ul {
+    list-style: none;
+}
+
+.services li {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
 
-  <!--
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Handjet:wght@200;400;600;800&display=swap"
-  />
-  -->
-  <style>
-    :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --border: #1f2933;
-      --danger: #f97373;
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.7);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.6);
-      --transition-fast: 0.2s ease-out;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: "Handjet", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 55%);
-      color: var(--text);
-      line-height: 1.7;
-      min-height: 100vh;
-      padding: 0;
-      margin: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color var(--transition-fast), opacity var(--transition-fast);
-    }
-
-    a:hover {
-      color: #7dd3fc;
-      opacity: 0.9;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* تخطيط عام */
-
-    .page {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
-
-    @media (min-width: 768px) {
-      .page {
-        padding: 32px 20px 56px;
-      }
-    }
-
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      padding: 14px 10px;
-      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-      background: linear-gradient(
-          135deg,
-          rgba(56, 189, 248, 0.08),
-          transparent 55%
-        ),
-        radial-gradient(circle at top left, #0f172a 0, #020617 55%);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
-    }
-
-    @media (min-width: 768px) {
-      header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding-inline: 18px;
-      }
-    }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .brand-title {
-      font-size: 1.9rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #f9fafb;
-    }
-
-    .brand-sub {
-      font-size: 1.1rem;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-    }
-
-    nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
-
-    @media (min-width: 768px) {
-      nav {
-        justify-content: flex-end;
-      }
-    }
-
-    .nav-link {
-      font-size: 1rem;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--muted);
-      background: rgba(15, 23, 42, 0.7);
-      cursor: pointer;
-      transition: background var(--transition-fast),
-        border-color var(--transition-fast), color var(--transition-fast),
-        transform var(--transition-fast);
-    }
-
-    .nav-link:hover {
-      background: rgba(15, 23, 42, 0.95);
-      border-color: var(--accent);
-      color: #e5f3ff;
-      transform: translateY(-1px);
-    }
-
-    main {
-      margin-top: 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    section {
-      background: linear-gradient(
-        145deg,
-        rgba(15, 23, 42, 0.96),
-        rgba(15, 23, 42, 0.98)
-      );
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      box-shadow: var(--shadow-soft);
-      padding: 10px 12px 12px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at top right,
-        rgba(56, 189, 248, 0.08),
-        transparent 55%
-      );
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    section > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (min-width: 768px) {
-      section {
-        padding: 14px 16px 16px;
-      }
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-
-    .section-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #e5f3ff;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title span {
-      font-size: 1.1rem;
-      color: var(--accent);
-    }
-
-    .section-tag {
-      font-size: 0.9rem;
-      color: var(--muted);
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px dashed rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .section-body {
-      font-size: 1.05rem;
-      color: #e5e7eb;
-    }
-
-    .section-body p + p {
-      margin-top: 8px;
-    }
-
-    /* قسم عني */
-
-    .about-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr);
-      gap: 18px;
-    }
-
-    @media (min-width: 900px) {
-      .about-layout {
-        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
-        align-items: flex-start;
-      }
-    }
-
-    .about-text {
-      font-size: 1.05rem;
-      color: #e5e7eb;
-    }
-
-    .about-text strong {
-      color: #f9fafb;
-      font-weight: 700;
-    }
-
-    .about-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 12px 12px 14px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: radial-gradient(
-          circle at top left,
-          rgba(56, 189, 248, 0.12),
-          transparent 55%
-        ),
-        rgba(15, 23, 42, 0.96);
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 10px;
-      font-size: 0.98rem;
-      color: var(--muted);
-    }
-
-    .meta-label {
-      color: #e5f3ff;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-    }
-
-    .meta-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 0.95rem;
-      color: #e5e7eb;
-    }
-
-    .satr-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.7);
-      background: rgba(15, 23, 42, 0.95);
-      font-size: 0.95rem;
-      color: #e5f3ff;
-      margin-top: 4px;
-    }
-
-    .satr-link span {
-      font-size: 1.1rem;
-    }
-
-    /* الشهادات */
-
-    .certs-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    @media (min-width: 700px) {
-      .certs-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .certs-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    .cert {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cert img {
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      box-shadow: var(--shadow-subtle);
-      background: #020617;
-      transition: transform var(--transition-fast),
-        box-shadow var(--transition-fast), border-color var(--transition-fast);
-      cursor: zoom-in;
-    }
-
-    .cert img:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.9);
-      border-color: var(--accent);
-    }
-
-    .cert-title {
-      font-size: 1rem;
-      color: #e5f3ff;
-      letter-spacing: 0.08em;
-    }
-
-    /* المشاريع */
-
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .project-item {
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(15, 23, 42, 0.96);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .project-name {
-      font-size: 1.1rem;
-      color: #f9fafb;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .project-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .btn-link {
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.8);
-      background: rgba(15, 23, 42, 0.98);
-      color: #e5f3ff;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-link span {
-      font-size: 1.1rem;
-    }
-
-    /* الخدمات */
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 14px;
-    }
-
-    @media (min-width: 800px) {
-      .services-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    .service {
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      border: 1px dashed rgba(75, 85, 99, 0.9);
-      background: rgba(15, 23, 42, 0.96);
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.7);
-    }
-
-    .service-title {
-      font-size: 1.05rem;
-      color: #e5f3ff;
-      margin-bottom: 4px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .service-desc {
-      font-size: 0.98rem;
-      color: var(--muted);
-    }
-
-    /* التواصل */
-
-    .contact-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
-    }
-
-    @media (min-width: 720px) {
-      .contact-layout {
-        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      }
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 1rem;
-      color: #e5e7eb;
-    }
-
-    .contact-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 10px;
-      align-items: center;
-    }
-
-    .contact-label {
-      font-size: 0.95rem;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .contact-value {
-      font-size: 1.02rem;
-      color: #e5f3ff;
-    }
-
-    .contact-highlight {
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(56, 189, 248, 0.7);
-      background: rgba(15, 23, 42, 0.98);
-      font-size: 0.98rem;
-      color: #e5f3ff;
-    }
-
-    .contact-highlight strong {
-      color: #f9fafb;
-    }
-
-    .contact-note {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    /* الفوتر */
-
-    footer {
-      margin-top: 26px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(31, 41, 55, 0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.95rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .copyright {
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .footer-small {
-      font-size: 0.85rem;
-    }
+/* Contact */
+.contact p {
+    font-size: 1.2rem;
+}
 
-    /* زر العودة للأعلى */
+/* Footer */
+footer {
+    text-align: center;
+    margin: 40px 0;
+    color: #64748b;
+}
 
-    .scroll-top {
-      position: fixed;
-      bottom: 18px;
-      left: 18px;
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.96);
-      color: #e5f3ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition-fast),
-        transform var(--transition-fast), border-color var(--transition-fast);
-      z-index: 30;
-      font-size: 1.2rem;
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
     }
 
-    .scroll-top.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+    header p {
+        font-size: 1.2rem;
     }
 
-    .scroll-top:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
+    h2 {
+        font-size: 1.6rem;
     }
-  </style>
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="brand-title">عماد الغامدي</div>
-        <div class="brand-sub">مطور ويب | مهتم بالأمن السيبراني</div>
-      </div>
-      <nav>
-        <button class="nav-link" data-scroll="#about">عنّي</button>
-        <button class="nav-link" data-scroll="#certs">شهاداتي</button>
-        <button class="nav-link" data-scroll="#projects">مشاريعي</button>
-        <button class="nav-link" data-scroll="#services">الخدمات</button>
-        <button class="nav-link" data-scroll="#contact">التواصل</button>
-      </nav>
-    </header>
 
-    <main>
-      <!-- عني -->
-      <section id="about">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span>01</span> عنّي
-          </h2>
-          <div class="section-tag">نبذة شخصية ومهنية</div>
-        </div>
+<div class="container">
 
-        <div class="about-layout">
-          <div class="about-text section-body">
-            <p>
-              أنا عماد، مطوّر ويب محترف بخبرة تتجاوز
-              <strong>٢–٣ سنوات</strong> في بناء واجهات وتجارب ويب حديثة
-              ومتجاوبة. أعمل على تحويل الأفكار إلى منتجات رقمية واضحة وسهلة
-              الاستخدام.
-            </p>
-            <p>
-              حاصل على شهادات معتمدة في
-              <strong>الذكاء الاصطناعي، إنترنت الأشياء، الأمن السيبراني، وتطوير
-                الويب</strong>، وطالب في
-              <strong>الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز</strong>.
-            </p>
-            <p>
-              قدّمت دورة بعنوان
-              <strong>«برمجة الويب»</strong> في عام
-              <strong>1445 هـ</strong>، ركّزت فيها على أساسيات تطوير الواجهات
-              وبناء مشاريع عملية قابلة للتطوير.
-            </p>
-          </div>
+<header>
+    <h1>عماد الغامدي</h1>
+    <p>مطور ويب | مهتم بالأمن السيبراني</p>
+</header>
 
-          <aside class="about-meta">
-            <div class="meta-row">
-              <span class="meta-label">الخبرة</span>
-              <span class="meta-pill">٢–٣ سنوات في تطوير الويب</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-label">الاهتمامات</span>
-              <span class="meta-pill">الأمن السيبراني</span>
-              <span class="meta-pill">الذكاء الاصطناعي</span>
-              <span class="meta-pill">إنترنت الأشياء</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-label">الانتماء</span>
-              <span class="meta-pill">الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-label">ملفي في سطر</span>
-            </div>
-            <a
-              class="satr-link"
-              href="https://profile.satr.codes/y50ib/public/overview"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>🔗</span>
-              <span>زيارة ملفي في سطر</span>
-            </a>
-          </aside>
-        </div>
-      </section>
+<section class="about">
+    <h2>عنّي</h2>
+    <p>
+        أنا عماد، مطوّر ويب محترف بخبرة تتجاوز ٢–٣ سنوات.
+        حاصل على شهادات معتمدة في الذكاء الاصطناعي، إنترنت الأشياء، الأمن السيبراني، وتطوير الويب.
+        طالب في الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز.
+        قدّمت دورة بعنوان “برمجة الويب” في عام 1445 هـ.
+    </p>
+</section>
 
-      <!-- الشهادات -->
-      <section id="certs">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span>02</span> شهاداتي
-          </h2>
-          <div class="section-tag">شهادات معتمدة في مجالات متعددة</div>
-        </div>
+<section class="profile-link">
+    <h2>ملفي</h2>
+    <a href="https://profile.satr.codes/y50ib/public/overview" target="_blank">
+        زيارة الملف
+    </a>
+</section>
 
-        <div class="certs-grid">
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/MG2STgJR/IMG-0447.jpg"
-              alt="شهادة مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة"
-            />
-            <div class="cert-title">
-              مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة
-            </div>
-          </div>
+<section class="certificates">
+    <h2>شهاداتي</h2>
 
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/tTFGWkpY/IMG-0446.jpg"
-              alt="شهادة مبادئ الذكاء الاصطناعي"
-            />
-            <div class="cert-title">مبادئ الذكاء الاصطناعي</div>
-          </div>
+    <p>مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة</p>
+    <img src="https://i.postimg.cc/MG2STgJR/IMG-0447.jpg">
 
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/BQpm6nXK/IMG-0449.jpg"
-              alt="شهادة تطوير تطبيقات الويب"
-            />
-            <div class="cert-title">تطوير تطبيقات الويب</div>
-          </div>
+    <p>مبادئ الذكاء الاصطناعي</p>
+    <img src="https://i.postimg.cc/tTFGWkpY/IMG-0446.jpg">
 
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/02nVQybc/IMG-0450.jpg"
-              alt="شهادة حماية الملكية الفكرية في اختراعات إنترنت الأشياء"
-            />
-            <div class="cert-title">
-              حماية الملكية الفكرية في اختراعات إنترنت الأشياء (IOT)
-            </div>
-          </div>
+    <p>تطوير تطبيقات الويب</p>
+    <img src="https://i.postimg.cc/BQpm6nXK/IMG-0449.jpg">
 
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/J4MTMk4z/IMG-0448.jpg"
-              alt="شهادة مستقبل الترفيه في ظل الذكاء الاصطناعي"
-            />
-            <div class="cert-title">
-              مستقبل الترفيه في ظل الذكاء الاصطناعي
-            </div>
-          </div>
+    <p>حماية الملكية الفكرية في اختراعات إنترنت الأشياء (IOT)</p>
+    <img src="https://i.postimg.cc/02nVQybc/IMG-0450.jpg">
 
-          <div class="cert">
-            <img
-              src="https://i.postimg.cc/TY0tw3pZ/IMG-0452.jpg"
-              alt="شهادة الأمن السيبراني"
-            />
-            <div class="cert-title">الأمن السيبراني</div>
-          </div>
-        </div>
-      </section>
+    <p>مستقبل الترفيه في ظل الذكاء الاصطناعي</p>
+    <img src="https://i.postimg.cc/J4MTMk4z/IMG-0448.jpg">
 
-      <!-- المشاريع -->
-      <section id="projects">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span>03</span> مشاريعي
-          </h2>
-          <div class="section-tag">نماذج من الأعمال والتطبيقات</div>
-        </div>
+    <p>الأمن السيبراني</p>
+    <img src="https://i.postimg.cc/TY0tw3pZ/IMG-0452.jpg">
 
-        <div class="projects-list">
-          <div class="project-item">
-            <div class="project-name">RAVA Store</div>
-            <div class="project-actions">
-              <a
-                class="btn-link"
-                href="https://serene-hamster-a1075f.netlify.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span>🌐</span>
-                <span>زيارة الموقع</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+</section>
 
-      <!-- الخدمات -->
-      <section id="services">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span>04</span> الخدمات
-          </h2>
-          <div class="section-tag">ما يمكنني تقديمه لك</div>
-        </div>
+<section class="projects">
+    <h2>مشاريعي</h2>
+    <p>
+        RAVA Store -
+        <a href="https://serene-hamster-a1075f.netlify.app/" target="_blank">
+            زيارة الموقع
+        </a>
+    </p>
+</section>
 
-        <div class="services-grid">
-          <div class="service">
-            <div class="service-title">تطوير واجهات الويب</div>
-            <div class="service-desc">
-              بناء واجهات ويب متجاوبة وحديثة باستخدام تقنيات الويب الأساسية
-              (HTML, CSS, JavaScript) مع التركيز على تجربة المستخدم.
-            </div>
-          </div>
+<section class="services">
+    <h2>الخدمات</h2>
+    <ul>
+        <li>تطوير مواقع ويب احترافية</li>
+        <li>تصميم واجهات مستخدم (UI)</li>
+        <li>تحسين تجربة المستخدم (UX)</li>
+        <li>أساسيات الأمن السيبراني للمواقع</li>
+        <li>بناء مشاريع باستخدام JavaScript</li>
+    </ul>
+</section>
 
-          <div class="service">
-            <div class="service-title">تحسين الأمان للتطبيقات</div>
-            <div class="service-desc">
-              مراجعة أساسيات الأمان في مشاريع الويب، واقتراح تحسينات مبنية على
-              مفاهيم الأمن السيبراني وتقليل الثغرات الشائعة.
-            </div>
-          </div>
+<section class="contact">
+    <h2>التواصل</h2>
+    <p>📞 رقم الجوال: +966508922074</p>
+    <p>📧 البريد الإلكتروني: ealg.Contact@gmail.com</p>
+</section>
 
-          <div class="service">
-            <div class="service-title">تدريب ودورات في الويب</div>
-            <div class="service-desc">
-              تقديم محتوى تدريبي في أساسيات برمجة الويب، وبناء مشاريع عملية
-              للمبتدئين والراغبين في دخول مجال التطوير.
-            </div>
-          </div>
-        </div>
-      </section>
+<footer>
+    <p>© جميع الحقوق محفوظة - عماد الغامدي</p>
+</footer>
 
-      <!-- التواصل -->
-      <section id="contact">
-        <div class="section-header">
-          <h2 class="section-title">
-            <span>05</span> التواصل
-          </h2>
-          <div class="section-tag">طرق التواصل والحجز</div>
-        </div>
+</div>
 
-        <div class="contact-layout">
-          <div class="contact-info">
-            <div class="contact-row">
-              <span class="contact-label">رقمي</span>
-              <span class="contact-value">+966508922074</span>
-            </div>
-            <div class="contact-row">
-              <span class="contact-label">البريد الإلكتروني</span>
-              <span class="contact-value">ealg.Contact@gmail.com</span>
-            </div>
-            <p class="contact-note">
-              يمكنك التواصل عبر الواتساب أو البريد الإلكتروني للاستفسار عن
-              الخدمات، التعاون، أو طلب تنفيذ مشروع جديد.
-            </p>
-          </div>
-
-          <div class="contact-highlight">
-            <strong>ملاحظة:</strong> أفضّل أن يتضمن أي تواصل:
-            <br />
-            • وصفًا مختصرًا للفكرة أو المشروع
-            <br />
-            • المدة المتوقعة للتنفيذ
-            <br />
-            • إن وُجد، أمثلة أو مواقع مشابهة للفكرة
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="copyright">
-        © <span id="year"></span> عماد الغامدي – جميع الحقوق محفوظة
-      </div>
-      <div class="footer-small">
-        تصميم وتطوير الواجهة باستخدام HTML, CSS, JavaScript
-      </div>
-    </footer>
-  </div>
-
-  <button class="scroll-top" id="scrollTopBtn" aria-label="العودة للأعلى">
-    ↑
-  </button>
-
-  <script>
-    // سنة الفوتر
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // سكرول ناعم للأقسام
-    document.querySelectorAll(".nav-link").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var target = this.getAttribute("data-scroll");
-        var el = document.querySelector(target);
-        if (!el) return;
-        window.scrollTo({
-          top: el.offsetTop - 90,
-          behavior: "smooth",
-        });
-      });
-    });
-
-    // زر العودة للأعلى
-    var scrollBtn = document.getElementById("scrollTopBtn");
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 260) {
-        scrollBtn.classList.add("visible");
-      } else {
-        scrollBtn.classList.remove("visible");
-      }
-    });
-
-    scrollBtn.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  </script>
 </body>
 </html>
