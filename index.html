@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>عماد الغامدي | السيرة الذاتية</title>
+    <!-- خط Handjet من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght,ELSH@100..900,2&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Handjet', monospace;
+            background: linear-gradient(135deg, #e9f0f5 0%, #dce7ed 100%);
+            color: #0a1c2f;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+            font-weight: 400;
+        }
+
+        /* لم نعد نستخدم container كبطاقة بيضاء واحدة — بدلاً من ذلك كل قسم مستقل بخلفيات شفافة */
+        .resume-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* كل قسم له خلفية شبه شفافة أو بيضاء خفيفة بحيث تكون منفصلة بصرياً ولكن بدون بطاقة موحدة */
+        .hero, .section, .footer {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(0px);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(44, 125, 160, 0.2);
+        }
+
+        /* الهيدر الشخصي */
+        .hero {
+            text-align: center;
+            border-bottom: 2px solid #2c7da0;
+            background: rgba(255, 255, 255, 0.92);
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #0f3b4f, #1e6f5c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #2c7da0;
+            background: #e1f0f5;
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            margin-top: 0.5rem;
+        }
+        .profile-link {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        .profile-link a {
+            color: #1f7a8c;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid #1f7a8c;
+            transition: 0.2s;
+        }
+        .profile-link a:hover {
+            color: #023e8a;
+            border-bottom-color: #023e8a;
+        }
+
+        /* أقسام عامة */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            border-right: 8px solid #2c7da0;
+            padding-right: 1rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            color: #0b3b4b;
+        }
+        .about-text {
+            font-size: 1.2rem;
+            background: #f9fdfe;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.8rem;
+            line-height: 1.6;
+            border: 1px solid #cbe5ed;
+        }
+
+        /* شبكة الشهادات */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+        .cert-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #dceff5;
+        }
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+        }
+        .cert-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: #eef2f5;
+        }
+        .cert-caption {
+            padding: 1rem 1rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            background: #ffffff;
+            color: #1e4a6e;
+        }
+
+        /* مشاريع */
+        .projects-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+        }
+        .project-card {
+            background: linear-gradient(115deg, #fff 0%, #fafefe 100%);
+            flex: 1 1 280px;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #cbe5ed;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .project-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: #1a5d6c;
+        }
+        .project-link {
+            display: inline-block;
+            background: #2c7da0;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 0.8rem;
+            transition: background 0.2s;
+        }
+        .project-link:hover {
+            background: #1f5e74;
+        }
+
+        /* قسم الخدمات (بعد الحذف المطلوب: أزلنا "تطوير مواقع ويب" و "دمج تقنيات الذكاء الاصطناعي") */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .service-item {
+            background: #eef5f9;
+            padding: 1.4rem 1rem;
+            border-radius: 1.8rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-bottom: 3px solid #2c7da0;
+        }
+        .service-item span {
+            display: block;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-top: 6px;
+            color: #1f5e6e;
+        }
+
+        /* معلومات التواصل - جعلها قابلة للنقر (tel / mailto) */
+        .contact-info {
+            background: #d9eef5;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 0.8rem;
+        }
+        .contact-item {
+            font-size: 1.25rem;
+            background: white;
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.1s, background 0.2s;
+            text-decoration: none;
+            color: #0f4c5f;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+        .contact-item:hover {
+            background: #e3f0f5;
+            transform: scale(1.02);
+            border-color: #2c7da0;
+            cursor: pointer;
+        }
+        .contact-item strong {
+            font-weight: 700;
+            color: #0f4c5f;
+        }
+        /* لضمان أن الرابط ليس له لون أزرق افتراضي */
+        .contact-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* footer */
+        .footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            font-size: 1rem;
+            border-top: 1px solid #bddce8;
+            margin-top: 0.5rem;
+            color: #2c5a6e;
+            font-weight: 500;
+            background: rgba(255,255,240,0.9);
+        }
+
+        /* استجابة للشاشات الصغيرة */
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .hero, .section, .footer {
+                padding: 1.2rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .about-text {
+                font-size: 1rem;
+            }
+            .cert-caption {
+                font-size: 0.9rem;
+            }
+            .contact-item {
+                font-size: 0.95rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .service-item {
+                font-size: 1rem;
+            }
+        }
+
+        a {
+            word-break: break-word;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="resume-wrapper">
+    <!-- الهيدر (بدون بطاقة موحدة) -->
+    <div class="hero">
+        <h1>عماد الغامدي</h1>
+        <div class="tagline">مطور ويب | مهتم بالأمن السيبراني</div>
+        <div class="profile-link">
+            🔗 <a href="https://profile.satr.codes/y50ib/public/overview" target="_blank" rel="noopener noreferrer">ملفي في سطر (satr.codes)</a>
+        </div>
+    </div>
+
+    <!-- عنّي -->
+    <div class="section">
+        <div class="section-title">عنّي</div>
+        <div class="about-text">
+            أنا عماد، مطوّر ويب محترف بخبرة تتجاوز ٢–٣ سنوات. حاصل على شهادات معتمدة في الذكاء الاصطناعي، إنترنت الأشياء، الأمن السيبراني، وتطوير الويب. 
+            طالب في الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز. قدّمت دورة بعنوان "برمجة الويب" في عام 1445 هـ.
+        </div>
+    </div>
+
+    <!-- شهاداتي -->
+    <div class="section">
+        <div class="section-title">شهاداتي...</div>
+        <div class="cert-grid">
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/MG2STgJR/IMG-0447.jpg" alt="مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة" loading="lazy">
+                <div class="cert-caption">مفاهيم الذكاء الاصطناعي و وتطبيقاته المتقدمة.</div>
+            </div>
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/tTFGWkpY/IMG-0446.jpg" alt="مبادئ الذكاء الاصطناعي" loading="lazy">
+                <div class="cert-caption">مبادئ الذكاء الاصطناعي.</div>
+            </div>
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/BQpm6nXK/IMG-0449.jpg" alt="تطوير تطبيقات الويب" loading="lazy">
+                <div class="cert-caption">تطوير تطبيقات الويب.</div>
+            </div>
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/02nVQybc/IMG-0450.jpg" alt="حماية الملكية الفكرية في اختراعات IOT" loading="lazy">
+                <div class="cert-caption">حماية الملكية الفكرية في اختراعات انترنت الاشياء (IOT).</div>
+            </div>
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/J4MTMk4z/IMG-0448.jpg" alt="مستقبل الترفيه في ظل الذكاء الاصطناعي" loading="lazy">
+                <div class="cert-caption">مستقبل الترفيه في ظل الذكاء الاصطناعي.</div>
+            </div>
+            <div class="cert-card">
+                <img class="cert-img" src="https://i.postimg.cc/TY0tw3pZ/IMG-0452.jpg" alt="الأمن السيبراني" loading="lazy">
+                <div class="cert-caption">الأمن السبراني.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مشاريعي -->
+    <div class="section">
+        <div class="section-title">مشاريعي...</div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>RAVA Store</h3>
+                <a class="project-link" href="https://serene-hamster-a1075f.netlify.app/" target="_blank" rel="noopener noreferrer">زيارة الموقع</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم الخدمات (تم حذف: "تطوير مواقع ويب" و "دمج تقنيات الذكاء الاصطناعي" نهائياً) -->
+    <div class="section">
+        <div class="section-title">الخدمات التي أقدمها</div>
+        <div class="services-grid">
+            <!-- فقط الخدمات المتبقية حسب الطلب: تم إزالة تطوير الويب + دمج الذكاء الاصطناعي -->
+            <div class="service-item">🛡️ استشارات أمن سيبراني <span>وعي, مبادئ الحماية</span></div>
+            <div class="service-item">📱 تصميم متجاوب بالكامل <span>Mobile First, RTL</span></div>
+            <div class="service-item">🔧 تطوير تطبيقات ويب متكاملة <span>Frontend & Backend أساسي</span></div>
+            <div class="service-item">📘 تدريب وشرح برمجة الويب <span>دورات وورش عمل</span></div>
+        </div>
+    </div>
+
+    <!-- معلومات التواصل: الآن روابط قابلة للنقر (tel و mailto) -->
+    <div class="section">
+        <div class="section-title">تواصل معي</div>
+        <div class="contact-info">
+            <div class="contact-item">
+                <a href="tel:+966508922074" class="contact-link" aria-label="اتصل بي عبر الهاتف">
+                    📞 <strong>رقمي:</strong> +966508922074
+                </a>
+            </div>
+            <div class="contact-item">
+                <a href="mailto:ealg.Contact@gmail.com" class="contact-link" aria-label="أرسل بريد إلكتروني">
+                    ✉️ <strong>ايميلي:</strong> ealg.Contact@gmail.com
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- حقوق النشر -->
+    <div class="footer">
+        © 2025 عماد الغامدي | جميع الحقوق محفوظة
+    </div>
+</div>
+
+<!-- جافاسكريبت خفيف لتحسين التعامل مع الصور المكسورة وسلاسة إضافية، لا يؤثر على الخدمات المحذوفة -->
+<script>
+    (function() {
+        // تحسين: أي صورة تظهر خطأ نعطيها خلفية بديلة
+        const certImages = document.querySelectorAll('.cert-img');
+        certImages.forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.objectFit = 'contain';
+                this.style.background = '#eef2f5';
+                this.alt = "الصورة غير متوفرة";
+            });
+        });
+
+        // إضافة تنبيه اختياري: التأكد من أن روابط الهاتف والبريد تعمل بشكل طبيعي
+        // أي تفاعل إضافي غير مطلوب لكنه مجرد تمرير سلس للروابط الداخلية إن وجدت
+        const internalHashLinks = document.querySelectorAll('a[href^="#"]');
+        internalHashLinks.forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const hash = this.getAttribute('href');
+                if(hash && hash !== '#') {
+                    const targetEl = document.querySelector(hash);
+                    if(targetEl) {
+                        e.preventDefault();
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+        // رسالة للمطورين فقط
+        console.log("تم تحديث السيرة الذاتية: إلغاء البطاقة الواحدة، حذف خدمتي (تطوير مواقع ويب + دمج الذكاء الاصطناعي)، إضافة روابط تفاعلية للهاتف والبريد.");
+    })();
+</script>
+</body>
+</html>
