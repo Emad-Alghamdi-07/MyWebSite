@@ -15,64 +15,66 @@
 
         body {
             font-family: 'Handjet', monospace;
-            background: linear-gradient(125deg, #e2f0f5 0%, #cfdfe8 100%);
-            color: #07212e;
+            background: linear-gradient(145deg, #f8fafc 0%, #eef2f5 100%);
+            color: #0a1c2f;
             line-height: 1.5;
             padding: 2rem 1.5rem;
             font-weight: 400;
         }
 
-        /* لا بطاقات إطلاقاً — كل شيء خلفية شفافة أو بدون صناديق بيضاء */
-        .resume-container {
+        /* حاوية رئيسية متجاوبة */
+        .container {
             max-width: 1280px;
             margin: 0 auto;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(0px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+            transition: all 0.2s ease;
         }
 
-        /* الأقسام: بدون خلفية بيضاء، بدون ظل، بدون حدود بطاقة */
-        .hero, .section, .footer {
-            background: transparent;
-            padding: 0.5rem 0 1.8rem 0;
-            margin-bottom: 1rem;
-            border: none;
-            box-shadow: none;
+        /* تخطيط مرن */
+        .resume-inner {
+            padding: 2rem 2rem 1.5rem;
         }
 
-        /* الهيدر الشخصي - لا بطاقة */
+        /* الهيدر الشخصي */
         .hero {
             text-align: center;
-            border-bottom: 2px solid #2c7da0;
-            padding-bottom: 1.2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px dashed #2c7da0;
+            padding-bottom: 1.8rem;
         }
         .hero h1 {
-            font-size: 4rem;
+            font-size: 3.8rem;
             font-weight: 700;
             letter-spacing: 2px;
             background: linear-gradient(135deg, #0f3b4f, #1e6f5c);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
         }
         .hero .tagline {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 500;
-            color: #1f5e6e;
-            background: rgba(255,255,220,0.4);
+            color: #2c7da0;
+            background: #e1f0f5;
             display: inline-block;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            margin-top: 0.4rem;
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            margin-top: 0.5rem;
         }
         .profile-link {
             margin-top: 1rem;
             font-size: 1.2rem;
         }
         .profile-link a {
-            color: #136b7c;
+            color: #1f7a8c;
             text-decoration: none;
             font-weight: 600;
-            border-bottom: 2px solid #136b7c;
+            border-bottom: 2px solid #1f7a8c;
             transition: 0.2s;
         }
         .profile-link a:hover {
@@ -80,187 +82,175 @@
             border-bottom-color: #023e8a;
         }
 
-        /* عنّي - بدون بطاقة */
+        /* أقسام عامة */
+        .section {
+            margin-bottom: 2.2rem;
+        }
         .section-title {
             font-size: 2rem;
             font-weight: 600;
             border-right: 8px solid #2c7da0;
             padding-right: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             letter-spacing: 1px;
             color: #0b3b4b;
         }
         .about-text {
             font-size: 1.2rem;
-            background: transparent;
-            padding: 0.2rem 0;
+            background: #f1f9fe;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.8rem;
             line-height: 1.6;
-            color: #032b36;
         }
 
-        /* شبكة الشهادات: الصور فقط لها إطار خفيف (ليست بطاقة كاملة، مجرد صور مع تسمية) */
+        /* شبكة الشهادات */
         .cert-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 0.8rem;
+            gap: 1.8rem;
         }
-        /* ملاحظة: هنا لا توجد بطاقة، فقط حاوية الصورة والتعليق - لا حدود بيضاء خلفية صندوق */
-        .cert-item {
-            display: flex;
-            flex-direction: column;
-            background: transparent;
-            border-radius: 0;
+        .cert-card {
+            background: white;
+            border-radius: 1.5rem;
             overflow: hidden;
-            transition: transform 0.2s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #dceff5;
         }
-        .cert-item:hover {
+        .cert-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
         }
         .cert-img {
             width: 100%;
             aspect-ratio: 16 / 9;
             object-fit: cover;
             display: block;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
-            border: 2px solid #ffffff80;
-            transition: box-shadow 0.2s;
             background: #eef2f5;
         }
         .cert-caption {
-            padding: 0.6rem 0.5rem 0.2rem;
+            padding: 1rem 1rem 1.2rem;
             font-size: 1rem;
             font-weight: 500;
             text-align: center;
-            background: transparent;
+            background: #ffffff;
             color: #1e4a6e;
         }
 
-        /* مشاريعي - بدون بطاقة */
+        /* مشاريع */
         .projects-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 1.8rem;
-            margin-top: 0.5rem;
         }
         .project-card {
-            /* نزيل كل أثر للبطاقة: خلفية شفافة، لا ظل ولا حدود ولا حشوة زائدة */
-            background: transparent;
+            background: linear-gradient(115deg, #fff 0%, #fafefe 100%);
             flex: 1 1 280px;
-            padding: 0.8rem 0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #cbe5ed;
+            transition: all 0.2s;
             text-align: center;
-            border: none;
-            box-shadow: none;
         }
         .project-card h3 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
             color: #1a5d6c;
-            font-weight: 600;
         }
         .project-link {
             display: inline-block;
             background: #2c7da0;
             color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 3rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
             text-decoration: none;
             font-weight: bold;
-            transition: background 0.2s, transform 0.1s;
+            margin-top: 0.8rem;
+            transition: background 0.2s;
         }
         .project-link:hover {
             background: #1f5e74;
-            transform: scale(0.98);
         }
 
-        /* الخدمات - بدون أي بطاقات (بدون خلفية بيضاء، بدون ظل) */
+        /* قسم الخدمات */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 1.2rem;
-            margin-top: 0.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 0.5rem;
         }
         .service-item {
-            background: transparent;
-            padding: 0.6rem 0.2rem;
+            background: #eef5f9;
+            padding: 1.4rem 1rem;
+            border-radius: 1.8rem;
             text-align: center;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             transition: all 0.2s;
-            border-bottom: 2px dotted #2c7da0;
-            color: #094c5e;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-bottom: 3px solid #2c7da0;
         }
         .service-item span {
             display: block;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 400;
-            margin-top: 4px;
-            color: #2f6b7c;
+            margin-top: 6px;
+            color: #1f5e6e;
         }
 
-        /* التواصل - بدون بطاقات، روابط تفاعلية */
+        /* معلومات التواصل */
         .contact-info {
-            background: transparent;
-            border-radius: 0;
-            padding: 0.5rem 0;
+            background: #d9eef5;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 2rem;
-            margin-top: 0.2rem;
+            margin-top: 0.8rem;
         }
         .contact-item {
             font-size: 1.25rem;
-            background: rgba(255, 255, 245, 0.6);
-            padding: 0.5rem 1.2rem;
-            border-radius: 3rem;
+            background: white;
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.2s;
-            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .contact-item strong {
+            font-weight: 700;
             color: #0f4c5f;
-            font-weight: 600;
-            border: 1px solid #9bc6d4;
-        }
-        .contact-item:hover {
-            background: #fff2cf;
-            border-color: #2c7da0;
-        }
-        .contact-link {
-            text-decoration: none;
-            color: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
         /* footer */
         .footer {
             text-align: center;
-            padding: 2rem 0 0.5rem;
+            padding: 1.5rem 1rem 1rem;
             font-size: 1rem;
-            border-top: 1px solid #88b8ca;
-            margin-top: 1.5rem;
+            border-top: 1px solid #bddce8;
+            margin-top: 1rem;
             color: #2c5a6e;
             font-weight: 500;
-            background: transparent;
         }
 
-        /* استجابة كاملة */
+        /* استجابة للشاشات الصغيرة */
         @media (max-width: 680px) {
             body {
+                padding: 1rem;
+            }
+            .resume-inner {
                 padding: 1.2rem;
             }
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
             }
             .hero .tagline {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             .section-title {
-                font-size: 1.7rem;
+                font-size: 1.6rem;
             }
             .about-text {
                 font-size: 1rem;
@@ -268,25 +258,22 @@
             .cert-caption {
                 font-size: 0.9rem;
             }
-            .service-item {
-                font-size: 1rem;
-            }
             .contact-item {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
         @media (max-width: 480px) {
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
-            .project-card h3 {
-                font-size: 1.6rem;
-            }
-            .cert-img {
-                border-radius: 1rem;
+            .service-item {
+                font-size: 1rem;
             }
         }
 
+        /* تنسيق الروابط وشعارات */
         a {
             word-break: break-word;
         }
@@ -295,147 +282,140 @@
             height: auto;
             display: block;
         }
-        /* لا بطاقات على الإطلاق، إزالة أي خلفية أو ظل غير مرغوب */
-        .cert-item, .project-card, .service-item, .contact-item {
-            box-shadow: none;
-            backdrop-filter: none;
-        }
     </style>
 </head>
 <body>
-<div class="resume-container">
-    <!-- الهيدر - بدون بطاقة -->
-    <div class="hero">
-        <h1>عماد الغامدي</h1>
-        <div class="tagline">مطور ويب | مهتم بالأمن السيبراني</div>
-        <div class="profile-link">
-            🔗 <a href="https://profile.satr.codes/y50ib/public/overview" target="_blank" rel="noopener noreferrer">ملفي في سطر (satr.codes)</a>
-        </div>
-    </div>
-
-    <!-- عنّي -->
-    <div class="section">
-        <div class="section-title">عنّي</div>
-        <div class="about-text">
-            أنا عماد، مطوّر ويب محترف بخبرة تتجاوز ٢–٣ سنوات. حاصل على شهادات معتمدة في الذكاء الاصطناعي، إنترنت الأشياء، الأمن السيبراني، وتطوير الويب. 
-            طالب في الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز. قدّمت دورة بعنوان "برمجة الويب" في عام 1445 هـ.
-        </div>
-    </div>
-
-    <!-- شهاداتي... باستخدام صور بدون بطاقات (فقط إطار الصورة) -->
-    <div class="section">
-        <div class="section-title">شهاداتي...</div>
-        <div class="cert-grid">
-            <!-- 1 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/MG2STgJR/IMG-0447.jpg" alt="مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة" loading="lazy">
-                <div class="cert-caption">مفاهيم الذكاء الاصطناعي و وتطبيقاته المتقدمة.</div>
-            </div>
-            <!-- 2 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/tTFGWkpY/IMG-0446.jpg" alt="مبادئ الذكاء الاصطناعي" loading="lazy">
-                <div class="cert-caption">مبادئ الذكاء الاصطناعي.</div>
-            </div>
-            <!-- 3 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/BQpm6nXK/IMG-0449.jpg" alt="تطوير تطبيقات الويب" loading="lazy">
-                <div class="cert-caption">تطوير تطبيقات الويب.</div>
-            </div>
-            <!-- 4 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/02nVQybc/IMG-0450.jpg" alt="حماية الملكية الفكرية في اختراعات IOT" loading="lazy">
-                <div class="cert-caption">حماية الملكية الفكرية في اختراعات انترنت الاشياء (IOT).</div>
-            </div>
-            <!-- 5 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/J4MTMk4z/IMG-0448.jpg" alt="مستقبل الترفيه في ظل الذكاء الاصطناعي" loading="lazy">
-                <div class="cert-caption">مستقبل الترفيه في ظل الذكاء الاصطناعي.</div>
-            </div>
-            <!-- 6 -->
-            <div class="cert-item">
-                <img class="cert-img" src="https://i.postimg.cc/TY0tw3pZ/IMG-0452.jpg" alt="الأمن السيبراني" loading="lazy">
-                <div class="cert-caption">الأمن السبراني.</div>
+<div class="container">
+    <div class="resume-inner">
+        <!-- الهيدر -->
+        <div class="hero">
+            <h1>عماد الغامدي</h1>
+            <div class="tagline">مطور ويب | مهتم بالأمن السيبراني</div>
+            <div class="profile-link">
+                🔗 <a href="https://profile.satr.codes/y50ib/public/overview" target="_blank" rel="noopener noreferrer">ملفي في سطر (satr.codes)</a>
             </div>
         </div>
-    </div>
 
-    <!-- مشاريعي (بدون بطاقات) -->
-    <div class="section">
-        <div class="section-title">مشاريعي...</div>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>RAVA Store</h3>
-                <a class="project-link" href="https://serene-hamster-a1075f.netlify.app/" target="_blank" rel="noopener noreferrer">زيارة الموقع</a>
+        <!-- عني -->
+        <div class="section">
+            <div class="section-title">عنّي</div>
+            <div class="about-text">
+                أنا عماد، مطوّر ويب محترف بخبرة تتجاوز ٢–٣ سنوات. حاصل على شهادات معتمدة في الذكاء الاصطناعي، إنترنت الأشياء، الأمن السيبراني، وتطوير الويب. 
+                طالب في الاتحاد السعودي للأمن السيبراني والبرمجة والدرونز. قدّمت دورة بعنوان "برمجة الويب" في عام 1445 هـ.
             </div>
         </div>
-    </div>
 
-    <!-- الخدمات التي أقدمها (بدون أي بطاقة أو خلفية صناديق) -->
-    <div class="section">
-        <div class="section-title">الخدمات التي أقدمها</div>
-        <div class="services-grid">
-            <div class="service-item">🛡️ استشارات أمن سيبراني <span>مبادئ الحماية، تقييم أولي</span></div>
-            <div class="service-item">🌐 تطوير واجهات ويب <span>HTML/CSS/JS, React</span></div>
-            <div class="service-item">📱 تصميم متجاوب بالكامل <span>Mobile First، RTL</span></div>
-            <div class="service-item">🔧 تطوير تطبيقات ويب متكاملة <span>Frontend & Backend أساسي</span></div>
-            <div class="service-item">📘 تدريب وشرح برمجة الويب <span>دورات وورش عمل</span></div>
-            <div class="service-item">🤖 تكامل أساسيات الذكاء الاصطناعي <span>استخدام APIs</span></div>
-        </div>
-    </div>
-
-    <!-- معلومات التواصل - روابط قابلة للنقر (هاتف + ايميل) -->
-    <div class="section">
-        <div class="section-title">تواصل معي</div>
-        <div class="contact-info">
-            <div class="contact-item">
-                <a href="tel:+966508922074" class="contact-link" aria-label="اتصال مباشر">
-                    📞 <strong>رقمي:</strong> +966508922074
-                </a>
+        <!-- شهاداتي (الصور والنصوص كما وردت) -->
+        <div class="section">
+            <div class="section-title">شهاداتي...</div>
+            <div class="cert-grid">
+                <!-- شهادة 1 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/MG2STgJR/IMG-0447.jpg" alt="مفاهيم الذكاء الاصطناعي وتطبيقاته المتقدمة" loading="lazy">
+                    <div class="cert-caption">مفاهيم الذكاء الاصطناعي و وتطبيقاته المتقدمة.</div>
+                </div>
+                <!-- شهادة 2 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/tTFGWkpY/IMG-0446.jpg" alt="مبادئ الذكاء الاصطناعي" loading="lazy">
+                    <div class="cert-caption">مبادئ الذكاء الاصطناعي.</div>
+                </div>
+                <!-- شهادة 3 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/BQpm6nXK/IMG-0449.jpg" alt="تطوير تطبيقات الويب" loading="lazy">
+                    <div class="cert-caption">تطوير تطبيقات الويب.</div>
+                </div>
+                <!-- شهادة 4 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/02nVQybc/IMG-0450.jpg" alt="حماية الملكية الفكرية في اختراعات IOT" loading="lazy">
+                    <div class="cert-caption">حماية الملكية الفكرية في اختراعات انترنت الاشياء (IOT).</div>
+                </div>
+                <!-- شهادة 5 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/J4MTMk4z/IMG-0448.jpg" alt="مستقبل الترفيه في ظل الذكاء الاصطناعي" loading="lazy">
+                    <div class="cert-caption">مستقبل الترفيه في ظل الذكاء الاصطناعي.</div>
+                </div>
+                <!-- شهادة 6 -->
+                <div class="cert-card">
+                    <img class="cert-img" src="https://i.postimg.cc/TY0tw3pZ/IMG-0452.jpg" alt="الأمن السيبراني" loading="lazy">
+                    <div class="cert-caption">الأمن السبراني.</div>
+                </div>
             </div>
-            <div class="contact-item">
-                <a href="mailto:ealg.Contact@gmail.com" class="contact-link" aria-label="إرسال بريد">
-                    ✉️ <strong>ايميلي:</strong> ealg.Contact@gmail.com
-                </a>
+        </div>
+
+        <!-- مشاريعي -->
+        <div class="section">
+            <div class="section-title">مشاريعي...</div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>RAVA Store</h3>
+                    <a class="project-link" href="https://serene-hamster-a1075f.netlify.app/" target="_blank" rel="noopener noreferrer">زيارة الموقع</a>
+                </div>
+                <!-- يمكن إضافة مشاريع أخرى مستقبلاً، لكن الطلب يذكر مشروع واحد فقط -->
             </div>
         </div>
-    </div>
 
-    <!-- حقوق النشر -->
-    <div class="footer">
-        © 2025 عماد الغامدي | جميع الحقوق محفوظة
+        <!-- الخدمات التي أقدمها -->
+        <div class="section">
+            <div class="section-title">الخدمات التي أقدمها</div>
+            <div class="services-grid">
+                <div class="service-item">🌐 تطوير مواقع ويب <span>React, HTML/CSS, JS</span></div>
+                <div class="service-item">🛡️ استشارات أمن سيبراني <span>وعي, مبادئ الحماية</span></div>
+                <div class="service-item">🤖 دمج تقنيات الذكاء الاصطناعي <span>API, نماذج أساسية</span></div>
+                <div class="service-item">📱 تصميم متجاوب بالكامل <span>Mobile First, RTL</span></div>
+                <div class="service-item">🔧 تطوير تطبيقات ويب متكاملة <span>Frontend & Backend أساسي</span></div>
+                <div class="service-item">📘 تدريب وشرح برمجة الويب <span>دورات وورش عمل</span></div>
+            </div>
+        </div>
+
+        <!-- معلومات التواصل (رقم + ايميل) -->
+        <div class="section">
+            <div class="section-title">تواصل معي</div>
+            <div class="contact-info">
+                <div class="contact-item">📞 <strong>رقمي:</strong> +966508922074</div>
+                <div class="contact-item">✉️ <strong>ايميلي:</strong> ealg.Contact@gmail.com</div>
+            </div>
+        </div>
+
+        <!-- حقوق النشر -->
+        <div class="footer">
+            © 2025 عماد الغامدي | جميع الحقوق محفوظة
+        </div>
     </div>
 </div>
 
-<!-- جافاسكريبت خفيف: معالجة الصور المكسورة + تحسين تجربة المستخدم، لا بطاقات إضافية -->
+<!-- أي سكريبت بسيط اختياري لتأكيد التفاعلية أو console, لكن ليس مطلوبًا صراحةً ولكن يمكن إضافة جافاسكريبت خفيف لتحسين تجربة الصور أو أي شي -->
 <script>
+    // جافاسكريبت بسيط لجعل تجربة المستخدم أكثر سلاسة (اختياري)
+    // إضافة lazy loading يدوي محسن ، أو منع كسر الصور عند الأخطاء.
     (function() {
-        // التأكد من أن الصور تظهر بشكل لائق في حال وجود خطأ
-        const imgs = document.querySelectorAll('.cert-img');
-        imgs.forEach(img => {
+        // تحسين: لو أي صورة فشلت في التحميل نعرض نص بديل مناسب
+        const images = document.querySelectorAll('.cert-img');
+        images.forEach(img => {
             img.addEventListener('error', function() {
                 this.style.objectFit = 'contain';
-                this.style.background = '#d9e2e8';
-                this.style.padding = '0.5rem';
-                this.alt = "تعذر تحميل الصورة";
+                this.style.background = '#eef2f5';
+                this.alt = "الصورة غير متوفرة مؤقتاً";
+                // عدم إزالة الصورة كلياً
             });
         });
 
-        // إضافة سلوك سلس للروابط الداخلية (اختياري)
-        const anchors = document.querySelectorAll('a[href^="#"]');
-        anchors.forEach(anchor => {
+        // إضافة تأثير تمرير ناعم للروابط الداخلية (اختياري لكنه لمسة جمالية)
+        const allLinks = document.querySelectorAll('a[href^="#"]');
+        allLinks.forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
                 if(targetId && targetId !== '#') {
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
+                    const targetElem = document.querySelector(targetId);
+                    if(targetElem) {
                         e.preventDefault();
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
             });
         });
-
-        console.log("سيرة ذاتية بدون أي بطاقات (ما عدا صور الشهادات فقط) ، متجاوبة بالكامل، مع روابط تواصل مباشرة.");
+        // ضمان أن جميع الروابط الخارجية تفتح بتبويب جديد بشكل آمن (مضاف من قبل target _blank)
+        // فقط للتأكيد
+        console.log("السيرة الذاتية لعماد الغامدي - تصميم متجاوب مع خط Handjet");
     })();
 </script>
 </body>
