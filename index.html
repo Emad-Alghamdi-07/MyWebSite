@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -67,12 +68,16 @@
             font-weight: 400;
         }
 
-        /* زر النشر العائم (منتصف أسفل الشاشة) */
-        .fab {
+        /* حاوية زر النشر العائم (منتصف أسفل الشاشة بالـ text-align) */
+        .fab-container {
             position: fixed;
             bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .fab {
             background: #1DB954;
             color: #000;
             width: 65px;
@@ -151,8 +156,10 @@
         </div>
     </div>
 
-    <!-- زر النشر العائم (منتصف أسفل الشاشة) -->
-    <button class="fab" onclick="openModal()">+</button>
+    <!-- زر النشر العائم داخل حاوية في المنتصف -->
+    <div class="fab-container">
+        <button class="fab" onclick="openModal()">+</button>
+    </div>
 
     <!-- نافذة الكتابة -->
     <div class="modal" id="modal">
