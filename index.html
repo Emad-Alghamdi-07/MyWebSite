@@ -1,282 +1,104 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>منصّة بسيطة</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المحتوى الحر</title>
+    <style>
+        /* تصميم بسيط وأنيق يشبه ثريدز */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #000; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #1DB954; text-align: center; }
 
-    .app {
-      width: 100%;
-      max-width: 700px;
-      padding: 20px 16px 40px;
-    }
+        /* صندوق الكتابة */
+        .post-box { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 80px; background: transparent; color: #fff; border: none; outline: none; resize: none; font-size: 16px; }
+        button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; float: left; }
+        button:hover { background: #ddd; }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 16px;
-      color: #f9fafb;
-    }
+        /* قائمة المنشورات */
+        .feed { width: 100%; }
+        .post { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; animation: slideIn 0.3s ease; }
+        .post-time { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .post-content { font-size: 16px; line-height: 1.4; word-wrap: break-word; }
 
-    .card {
-      background: rgba(15, 23, 42, 0.85);
-      border-radius: 16px;
-      padding: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      backdrop-filter: blur(16px);
-      margin-bottom: 16px;
-    }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    label {
-      font-size: 13px;
-      color: #cbd5f5;
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    input[type="text"],
-    textarea,
-    input[type="color"] {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #4b5563;
-      background: rgba(15, 23, 42, 0.9);
-      color: #e5e7eb;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input[type="color"] {
-      padding: 0;
-      height: 36px;
-      cursor: pointer;
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 8px 18px;
-      background: linear-gradient(135deg, #6366f1, #ec4899);
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    button:active {
-      transform: scale(0.97);
-    }
-
-    .posts {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .post {
-      display: flex;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(75, 85, 99, 0.7);
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .post-body {
-      flex: 1;
-    }
-
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    .username {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .time {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .content {
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
-
-    .empty {
-      text-align: center;
-      font-size: 13px;
-      color: #9ca3af;
-      margin-top: 10px;
-    }
-  </style>
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
-  <div class="app">
-    <h1>منصّة بسيطة بدون تسجيل</h1>
 
-    <div class="card">
-      <div class="row">
-        <div style="flex: 2;">
-          <label>اسم المستخدم</label>
-          <input type="text" id="username" placeholder="اكتب اسمك هنا" />
+    <div class="container">
+        <h1>فضفض للبشر 🚀</h1>
+
+        <div class="post-box">
+            <textarea id="postInput" placeholder="وش قاعد يدور في بالك؟"></textarea>
+            <button onclick="sendPost()">نشر</button>
+            <div style="clear: both;"></div>
         </div>
-        <div style="flex: 1;">
-          <label>لون الصورة الشخصية</label>
-          <input type="color" id="avatarColor" value="#6366f1" />
+
+        <div id="feed" class="feed">
+            <p style="text-align: center; color: #666;">جاري تحميل المحتوى العشوائي...</p>
         </div>
-      </div>
-
-      <div>
-        <label>محتوى المنشور</label>
-        <textarea id="postContent" placeholder="اكتب منشورك هنا..."></textarea>
-      </div>
-
-      <button id="publishBtn">نشر</button>
     </div>
 
-    <div class="card">
-      <h3 style="margin-top:0; margin-bottom:10px; font-size:15px;">المنشورات</h3>
-      <div id="postsContainer" class="posts"></div>
-      <div id="emptyState" class="empty">لا توجد منشورات حتى الآن.</div>
-    </div>
-  </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script>
-    const usernameInput = document.getElementById('username');
-    const avatarColorInput = document.getElementById('avatarColor');
-    const postContentInput = document.getElementById('postContent');
-    const publishBtn = document.getElementById('publishBtn');
-    const postsContainer = document.getElementById('postsContainer');
-    const emptyState = document.getElementById('emptyState');
+    <script>
+        // الروابط اللي أنت نسختها ركبتها لك هنا
+        const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // تحميل المنشورات من localStorage
-    let posts = JSON.parse(localStorage.getItem('simple_posts') || '[]');
-    renderPosts();
+        // 1. وظيفة لجلب المنشورات من القاعدة وعرضها
+        async function getPosts() {
+            const { data, error } = await _supabase
+                .from('posts')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-    publishBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      const color = avatarColorInput.value;
-      const content = postContentInput.value.trim();
+            if (error) {
+                console.error('خطأ في التحميل:', error);
+                return;
+            }
 
-      if (!username || !content) {
-        alert('الرجاء كتابة اسم المستخدم والمحتوى.');
-        return;
-      }
+            const feedDiv = document.getElementById('feed');
+            feedDiv.innerHTML = ''; // تنظيف الشاشة قبل العرض
 
-      const post = {
-        id: Date.now(),
-        username,
-        color,
-        content,
-        createdAt: new Date().toISOString()
-      };
+            data.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="post-time">${new Date(post.created_at).toLocaleString('ar-SA')}</div>
+                    <div class="post-content">${post.content}</div>
+                `;
+                feedDiv.appendChild(postElement);
+            });
+        }
 
-      posts.unshift(post);
-      localStorage.setItem('simple_posts', JSON.stringify(posts));
-      postContentInput.value = '';
-      renderPosts();
-    });
+        // 2. وظيفة لنشر كلام جديد
+        async function sendPost() {
+            const content = document.getElementById('postInput').value;
 
-    function renderPosts() {
-      postsContainer.innerHTML = '';
+            if (!content.trim()) {
+                alert("اكتب شي أول!");
+                return;
+            }
 
-      if (posts.length === 0) {
-        emptyState.style.display = 'block';
-        return;
-      } else {
-        emptyState.style.display = 'none';
-      }
+            const { error } = await _supabase
+                .from('posts')
+                .insert([{ content: content }]);
 
-      posts.forEach(post => {
-        const postEl = document.createElement('div');
-        postEl.className = 'post';
+            if (error) {
+                alert("مشكلة في النشر، تأكد من إعدادات الجدول");
+                console.error(error);
+            } else {
+                document.getElementById('postInput').value = ''; // مسح الصندوق
+                getPosts(); // تحديث القائمة فوراً
+            }
+        }
 
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.style.background = post.color;
-        avatar.textContent = post.username.charAt(0).toUpperCase();
-
-        const body = document.createElement('div');
-        body.className = 'post-body';
-
-        const header = document.createElement('div');
-        header.className = 'post-header';
-
-        const usernameSpan = document.createElement('span');
-        usernameSpan.className = 'username';
-        usernameSpan.textContent = post.username;
-
-        const timeSpan = document.createElement('span');
-        timeSpan.className = 'time';
-        timeSpan.textContent = formatTime(post.createdAt);
-
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'content';
-        contentDiv.textContent = post.content;
-
-        header.appendChild(usernameSpan);
-        header.appendChild(timeSpan);
-        body.appendChild(header);
-        body.appendChild(contentDiv);
-
-        postEl.appendChild(avatar);
-        postEl.appendChild(body);
-
-        postsContainer.appendChild(postEl);
-      });
-    }
-
-    function formatTime(iso) {
-      const d = new Date(iso);
-      return d.toLocaleString('ar-SA', {
-        hour: '2-digit',
-        minute: '2-digit',
-        day: '2-digit',
-        month: '2-digit'
-      });
-    }
-  </script>
+        // تشغيل الجلب بمجرد فتح الصفحة
+        getPosts();
+    </script>
 </body>
 </html>
