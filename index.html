@@ -1,104 +1,758 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المحتوى الحر</title>
-    <style>
-        /* تصميم بسيط وأنيق يشبه ثريدز */
-        body { font-family: 'Segoe UI', sans-serif; background-color: #000; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 500px; }
-        h1 { font-size: 24px; margin-bottom: 20px; color: #1DB954; text-align: center; }
-        
-        /* صندوق الكتابة */
-        .post-box { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        textarea { width: 100%; height: 80px; background: transparent; color: #fff; border: none; outline: none; resize: none; font-size: 16px; }
-        button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; float: left; }
-        button:hover { background: #ddd; }
+  <meta charset="UTF-8" />
+  <title>منصة آراء بسيطة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.15);
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --danger: #ef4444;
+      --border: #1f2933;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
 
-        /* قائمة المنشورات */
-        .feed { width: 100%; }
-        .post { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; animation: slideIn 0.3s ease; }
-        .post-time { font-size: 12px; color: #666; margin-bottom: 8px; }
-        .post-content { font-size: 16px; line-height: 1.4; word-wrap: break-word; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    body {
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+      background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(148,163,184,0.18);
+      box-shadow:
+        0 30px 80px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(15,23,42,0.9);
+      padding: 20px 18px 22px;
+      backdrop-filter: blur(22px);
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 26px 26px 28px;
+      }
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-pill {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      color: #bbf7d0;
+      border: 1px solid rgba(34,197,94,0.35);
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, rgba(79,70,229,0.35), rgba(15,23,42,0.9));
+      border: 1px solid rgba(129,140,248,0.5);
+      font-size: 0.75rem;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    .composer {
+      background: radial-gradient(circle at top left, rgba(79,70,229,0.16), rgba(15,23,42,0.96));
+      border-radius: 22px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow:
+        0 18px 40px rgba(15,23,42,0.85),
+        0 0 0 1px rgba(15,23,42,0.9);
+      margin-bottom: 18px;
+    }
+
+    .composer-top {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #4f46e5, #1d1b4f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(15,23,42,1);
+    }
+
+    .composer-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      resize: none;
+      min-height: 64px;
+      max-height: 160px;
+      border-radius: 14px;
+      border: 1px solid rgba(51,65,85,0.9);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      padding: 10px 11px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    textarea::placeholder {
+      color: #6b7280;
+    }
+
+    textarea:focus {
+      border-color: rgba(129,140,248,0.9);
+      box-shadow: 0 0 0 1px rgba(129,140,248,0.7);
+      background: rgba(15,23,42,0.98);
+    }
+
+    .composer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .left-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.18s ease, border 0.18s ease, transform 0.1s ease;
+    }
+
+    .file-label:hover {
+      background: rgba(30,64,175,0.35);
+      border-style: solid;
+      transform: translateY(-1px);
+    }
+
+    .file-label span.icon {
+      font-size: 0.9rem;
+    }
+
+    .file-name {
+      font-size: 0.7rem;
+      color: var(--muted);
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .char-counter {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .char-counter.too-long {
+      color: #f97316;
+    }
+
+    .btn-primary {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: none;
+      background: radial-gradient(circle at top left, #6366f1, #4f46e5);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow:
+        0 12px 30px rgba(79,70,229,0.65),
+        0 0 0 1px rgba(15,23,42,1);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-primary:not(:disabled):hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 16px 40px rgba(79,70,229,0.8),
+        0 0 0 1px rgba(15,23,42,1);
+    }
+
+    .btn-primary:not(:disabled):active {
+      transform: translateY(0);
+      box-shadow:
+        0 8px 20px rgba(79,70,229,0.7),
+        0 0 0 1px rgba(15,23,42,1);
+    }
+
+    .status {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      min-height: 16px;
+    }
+
+    .status.error {
+      color: #fca5a5;
+    }
+
+    .status.success {
+      color: #bbf7d0;
+    }
+
+    .divider {
+      margin: 14px 0 10px;
+      border-top: 1px solid rgba(30,41,59,0.9);
+    }
+
+    .feed-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .feed-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .feed-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .posts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .post {
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
+      border: 1px solid rgba(30,64,175,0.55);
+      padding: 10px 11px 9px;
+      display: flex;
+      gap: 9px;
+      position: relative;
+    }
+
+    .post::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at top left, rgba(79,70,229,0.18), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .post-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #1d4ed8, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(15,23,42,1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .post-author {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .post-time {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .post-content {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .post-image {
+      margin-top: 6px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(30,64,175,0.7);
+      max-height: 260px;
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn-delete {
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.7);
+      background: rgba(127,29,29,0.35);
+      color: #fecaca;
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease, border 0.15s ease;
+    }
+
+    .btn-delete:hover {
+      background: rgba(185,28,28,0.7);
+      border-color: rgba(248,113,113,1);
+      transform: translateY(-1px);
+    }
+
+    .btn-delete:active {
+      transform: translateY(0);
+    }
+
+    .empty-state {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 14px 6px 4px;
+    }
+
+    .loading {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 10px 0 4px;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>فضفض للبشر 🚀</h1>
-
-        <div class="post-box">
-            <textarea id="postInput" placeholder="وش قاعد يدور في بالك؟"></textarea>
-            <button onclick="sendPost()">نشر</button>
-            <div style="clear: both;"></div>
+  <div class="app">
+    <header class="app-header">
+      <div class="title-group">
+        <div class="title">
+          مساحة آراء
+          <span class="title-pill">تجريبي</span>
         </div>
+        <div class="subtitle">منصة بسيطة لكتابة رأيك ورفع صورة (بدون تسجيل دخول).</div>
+      </div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>متصل بـ Supabase</span>
+      </div>
+    </header>
 
-        <div id="feed" class="feed">
-            <p style="text-align: center; color: #666;">جاري تحميل المحتوى العشوائي...</p>
+    <section class="composer">
+      <div class="composer-top">
+        <div class="avatar">أ</div>
+        <div class="composer-main">
+          <textarea id="content" maxlength="280" placeholder="اكتب رأيك هنا (بحد أقصى 280 حرفًا)..."></textarea>
+          <div class="composer-footer">
+            <div class="left-actions">
+              <label class="file-label">
+                <span class="icon">📷</span>
+                <span>إضافة صورة (اختياري)</span>
+                <input type="file" id="imageInput" accept="image/*" />
+              </label>
+              <span class="file-name" id="fileName"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="char-counter" id="charCounter">0 / 280</span>
+              <button class="btn-primary" id="publishBtn">
+                <span>نشر</span>
+                <span>➤</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+      <div class="status" id="status"></div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <script>
-        // الروابط اللي أنت نسختها ركبتها لك هنا
-        const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <div class="divider"></div>
 
-        // 1. وظيفة لجلب المنشورات من القاعدة وعرضها
-        async function getPosts() {
-            const { data, error } = await _supabase
-                .from('posts')
-                .select('*')
-                .order('created_at', { ascending: false });
+    <section>
+      <div class="feed-header">
+        <div class="feed-title">آخر المشاركات</div>
+        <div class="feed-count" id="feedCount">0 مشاركة</div>
+      </div>
+      <div id="loading" class="loading">جاري تحميل المشاركات...</div>
+      <div id="posts" class="posts"></div>
+      <div id="emptyState" class="empty-state" style="display:none;">لا توجد مشاركات حتى الآن. كن أول من يكتب رأيه ✨</div>
+    </section>
+  </div>
 
-            if (error) {
-                console.error('خطأ في التحميل:', error);
-                return;
-            }
+  <!-- Supabase JS -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    // ضع بيانات مشروعك هنا
+    const SUPABASE_URL = "https://yiwgqohertsftgnpcqoh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX";
 
-            const feedDiv = document.getElementById('feed');
-            feedDiv.innerHTML = ''; // تنظيف الشاشة قبل العرض
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            data.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post';
-                postElement.innerHTML = `
-                    <div class="post-time">${new Date(post.created_at).toLocaleString('ar-SA')}</div>
-                    <div class="post-content">${post.content}</div>
-                `;
-                feedDiv.appendChild(postElement);
-            });
+    const contentEl = document.getElementById("content");
+    const imageInputEl = document.getElementById("imageInput");
+    const fileNameEl = document.getElementById("fileName");
+    const publishBtn = document.getElementById("publishBtn");
+    const statusEl = document.getElementById("status");
+    const postsEl = document.getElementById("posts");
+    const loadingEl = document.getElementById("loading");
+    const emptyStateEl = document.getElementById("emptyState");
+    const charCounterEl = document.getElementById("charCounter");
+    const feedCountEl = document.getElementById("feedCount");
+
+    let isSubmitting = false;
+
+    contentEl.addEventListener("input", () => {
+      const len = contentEl.value.length;
+      charCounterEl.textContent = len + " / 280";
+      charCounterEl.classList.toggle("too-long", len > 280);
+    });
+
+    imageInputEl.addEventListener("change", () => {
+      if (imageInputEl.files && imageInputEl.files[0]) {
+        fileNameEl.textContent = imageInputEl.files[0].name;
+      } else {
+        fileNameEl.textContent = "";
+      }
+    });
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message || "";
+      statusEl.className = "status";
+      if (type) statusEl.classList.add(type);
+    }
+
+    function formatDate(isoString) {
+      const date = new Date(isoString);
+      if (isNaN(date.getTime())) return "";
+      return date.toLocaleString("ar-SA", {
+        dateStyle: "short",
+        timeStyle: "short"
+      });
+    }
+
+    async function uploadImageIfExists() {
+      const file = imageInputEl.files[0];
+      if (!file) return null;
+
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+      const filePath = `posts/${fileName}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from("images")
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error(uploadError);
+        throw new Error("فشل رفع الصورة");
+      }
+
+      const { data } = supabaseClient.storage
+        .from("images")
+        .getPublicUrl(filePath);
+
+      return data.publicUrl || null;
+    }
+
+    async function createPost() {
+      if (isSubmitting) return;
+
+      const content = contentEl.value.trim();
+      if (!content) {
+        setStatus("الرجاء كتابة نص قبل النشر.", "error");
+        return;
+      }
+      if (content.length > 280) {
+        setStatus("النص يتجاوز 280 حرفًا، قلل النص قليلاً.", "error");
+        return;
+      }
+
+      isSubmitting = true;
+      publishBtn.disabled = true;
+      setStatus("جاري نشر المشاركة...", "");
+
+      try {
+        let imageUrl = null;
+        if (imageInputEl.files && imageInputEl.files[0]) {
+          imageUrl = await uploadImageIfExists();
         }
 
-        // 2. وظيفة لنشر كلام جديد
-        async function sendPost() {
-            const content = document.getElementById('postInput').value;
-            
-            if (!content.trim()) {
-                alert("اكتب شي أول!");
-                return;
-            }
+        const { data, error } = await supabaseClient
+          .from("posts")
+          .insert([{ content, image_url: imageUrl }])
+          .select()
+          .single();
 
-            const { error } = await _supabase
-                .from('posts')
-                .insert([{ content: content }]);
+        if (error) throw error;
 
-            if (error) {
-                alert("مشكلة في النشر، تأكد من إعدادات الجدول");
-                console.error(error);
-            } else {
-                document.getElementById('postInput').value = ''; // مسح الصندوق
-                getPosts(); // تحديث القائمة فوراً
-            }
+        contentEl.value = "";
+        imageInputEl.value = "";
+        fileNameEl.textContent = "";
+        charCounterEl.textContent = "0 / 280";
+        setStatus("تم نشر المشاركة بنجاح ✅", "success");
+
+        await fetchPosts();
+      } catch (err) {
+        console.error(err);
+        setStatus("حدث خطأ أثناء النشر. تأكد من إعداد Storage والجدول.", "error");
+      } finally {
+        isSubmitting = false;
+        publishBtn.disabled = false;
+      }
+    }
+
+    async function deletePost(id) {
+      const confirmDelete = confirm("هل أنت متأكد من حذف هذه المشاركة؟");
+      if (!confirmDelete) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from("posts")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+
+        await fetchPosts();
+      } catch (err) {
+        console.error(err);
+        alert("فشل حذف المشاركة. تحقق من إعدادات Supabase.");
+      }
+    }
+
+    function renderPosts(posts) {
+      postsEl.innerHTML = "";
+
+      if (!posts || posts.length === 0) {
+        emptyStateEl.style.display = "block";
+        feedCountEl.textContent = "0 مشاركة";
+        return;
+      }
+
+      emptyStateEl.style.display = "none";
+      feedCountEl.textContent = posts.length + " مشاركة";
+
+      posts.forEach((post) => {
+        const postEl = document.createElement("article");
+        postEl.className = "post";
+
+        const avatarEl = document.createElement("div");
+        avatarEl.className = "post-avatar";
+        avatarEl.textContent = "م";
+
+        const bodyEl = document.createElement("div");
+        bodyEl.className = "post-body";
+
+        const metaEl = document.createElement("div");
+        metaEl.className = "post-meta";
+
+        const authorEl = document.createElement("div");
+        authorEl.className = "post-author";
+        authorEl.textContent = "مستخدم مجهول";
+
+        const timeEl = document.createElement("div");
+        timeEl.className = "post-time";
+        timeEl.textContent = formatDate(post.created_at);
+
+        metaEl.appendChild(authorEl);
+        metaEl.appendChild(timeEl);
+
+        const contentElDiv = document.createElement("div");
+        contentElDiv.className = "post-content";
+        contentElDiv.textContent = post.content || "";
+
+        bodyEl.appendChild(metaEl);
+        bodyEl.appendChild(contentElDiv);
+
+        if (post.image_url) {
+          const imageWrapper = document.createElement("div");
+          imageWrapper.className = "post-image";
+          const img = document.createElement("img");
+          img.src = post.image_url;
+          img.alt = "صورة مرفقة";
+          imageWrapper.appendChild(img);
+          bodyEl.appendChild(imageWrapper);
         }
 
-        // تشغيل الجلب بمجرد فتح الصفحة
-        getPosts();
-    </script>
+        const actionsEl = document.createElement("div");
+        actionsEl.className = "post-actions";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "btn-delete";
+        deleteBtn.innerHTML = "🗑 حذف";
+        deleteBtn.addEventListener("click", () => deletePost(post.id));
+
+        actionsEl.appendChild(deleteBtn);
+        bodyEl.appendChild(actionsEl);
+
+        postEl.appendChild(avatarEl);
+        postEl.appendChild(bodyEl);
+
+        postsEl.appendChild(postEl);
+      });
+    }
+
+    async function fetchPosts() {
+      loadingEl.style.display = "block";
+      postsEl.innerHTML = "";
+      emptyStateEl.style.display = "none";
+
+      const { data, error } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      loadingEl.style.display = "none";
+
+      if (error) {
+        console.error(error);
+        postsEl.innerHTML = "";
+        emptyStateEl.style.display = "block";
+        emptyStateEl.textContent = "فشل تحميل المشاركات. تحقق من إعدادات Supabase.";
+        return;
+      }
+
+      renderPosts(data);
+    }
+
+    publishBtn.addEventListener("click", createPost);
+
+    fetchPosts();
+  </script>
 </body>
 </html>
