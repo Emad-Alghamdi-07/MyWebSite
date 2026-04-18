@@ -1,620 +1,196 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>نـجـد | Najd</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Najd Threads</title>
 
-<!-- Google Font: Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-    :root {
-        --bg: #050509;
-        --bg-elevated: #101018;
-        --accent: #4a8cff;
-        --accent-soft: rgba(74, 140, 255, 0.12);
-        --border: #222334;
-        --text-main: #ffffff;
-        --text-muted: #9ca3af;
-        --danger: #f97373;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
     body {
         margin: 0;
         padding: 0;
-        background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
-        color: var(--text-main);
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        backdrop-filter: blur(16px);
-        background: linear-gradient(to bottom, rgba(3,7,18,0.95), rgba(3,7,18,0.85));
-        border-bottom: 1px solid rgba(148,163,184,0.18);
-        padding: 14px 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    header .logo-mark {
-        width: 26px;
-        height: 26px;
-        border-radius: 999px;
-        background: conic-gradient(from 180deg, #4a8cff, #22c55e, #eab308, #ec4899, #4a8cff);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
-    }
-
-    header .logo-mark span {
-        font-size: 14px;
-        font-weight: 700;
-        color: #0b1120;
-    }
-
-    header .title {
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-    }
-
-    header .subtitle {
-        font-size: 11px;
-        color: var(--text-muted);
+        background: #000;
+        color: #fff;
+        font-family: system-ui, sans-serif;
     }
 
     .container {
-        max-width: 720px;
-        margin: 18px auto 40px;
-        padding: 0 16px;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
     }
 
-    .composer {
-        background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.96));
-        border-radius: 18px;
-        padding: 14px 14px 12px;
-        border: 1px solid rgba(148,163,184,0.25);
-        box-shadow:
-            0 18px 45px rgba(15,23,42,0.9),
-            0 0 0 1px rgba(15,23,42,0.9);
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
     }
 
-    .composer-top {
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
+    .input-box {
+        background: #111;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #222;
     }
 
-    .avatar-preview {
-        width: 40px;
-        height: 40px;
-        border-radius: 999px;
-        border: 2px solid rgba(15,23,42,0.9);
-        box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
-        flex-shrink: 0;
-    }
-
-    .composer-main {
-        flex: 1;
-    }
-
-    textarea {
+    input, textarea {
         width: 100%;
-        background: transparent;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 10px;
         border: none;
-        outline: none;
-        color: var(--text-main);
+        background: #1a1a1a;
+        color: #fff;
         font-size: 15px;
-        resize: none;
-        min-height: 70px;
-        max-height: 180px;
-        line-height: 1.6;
-    }
-
-    textarea::placeholder {
-        color: #6b7280;
-    }
-
-    .composer-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 10px;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .color-picker-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: var(--text-muted);
-    }
-
-    .color-picker-wrapper input[type="color"] {
-        width: 26px;
-        height: 26px;
-        padding: 0;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.4);
-        background: transparent;
-        cursor: pointer;
-    }
-
-    .meta-info {
-        font-size: 11px;
-        color: var(--text-muted);
-    }
-
-    .meta-info span {
-        margin-inline-start: 8px;
-    }
-
-    .meta-info .dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 999px;
-        background: #4b5563;
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0 4px;
     }
 
     button {
-        padding: 9px 18px;
-        background: linear-gradient(135deg, #4a8cff, #2563eb);
+        width: 100%;
+        padding: 14px;
+        background: #fff;
+        color: #000;
         border: none;
-        border-radius: 999px;
-        color: #fff;
-        font-size: 14px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
         cursor: pointer;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        box-shadow:
-            0 10px 25px rgba(37,99,235,0.45),
-            0 0 0 1px rgba(15,23,42,0.9);
-        white-space: nowrap;
-    }
-
-    button:hover {
-        filter: brightness(1.05);
-        transform: translateY(-0.5px);
-    }
-
-    button:active {
-        transform: translateY(0.5px);
-        box-shadow:
-            0 4px 14px rgba(37,99,235,0.35),
-            0 0 0 1px rgba(15,23,42,0.9);
-    }
-
-    button:disabled {
-        opacity: 0.5;
-        cursor: default;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .feed-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 22px;
-        margin-bottom: 6px;
-        font-size: 12px;
-        color: var(--text-muted);
-    }
-
-    .feed-header span strong {
-        color: #e5e7eb;
-    }
-
-    .feed {
-        margin-top: 4px;
-        border-radius: 18px;
-        border: 1px solid rgba(31,41,55,0.9);
-        background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.96));
-        overflow: hidden;
     }
 
     .post {
+        background: #111;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #222;
         display: flex;
         gap: 12px;
-        padding: 14px 14px 12px;
-        border-bottom: 1px solid rgba(31,41,55,0.9);
+        align-items: flex-start;
     }
 
-    .post:last-child {
-        border-bottom: none;
-    }
-
-    .post-avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 999px;
+    .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
         flex-shrink: 0;
-        box-shadow:
-            0 0 0 1px rgba(15,23,42,0.9),
-            0 0 0 3px rgba(15,23,42,0.9);
-    }
-
-    .post-main {
-        flex: 1;
-        min-width: 0;
     }
 
     .post-content {
-        font-size: 14px;
-        line-height: 1.7;
-        word-break: break-word;
-        white-space: pre-wrap;
+        flex: 1;
     }
 
-    .post-meta {
-        margin-top: 6px;
-        font-size: 11px;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex-wrap: wrap;
+    .author {
+        font-weight: bold;
+        margin-bottom: 5px;
     }
 
-    .post-meta .badge {
-        padding: 2px 7px;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.35);
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-    }
-
-    .post-meta .expires {
-        color: #fbbf24;
-    }
-
-    .empty-state {
-        padding: 18px 16px 20px;
-        text-align: center;
+    .time {
+        opacity: 0.5;
         font-size: 13px;
-        color: var(--text-muted);
-    }
-
-    .empty-state span {
-        display: block;
-        margin-top: 4px;
-        font-size: 12px;
-        color: #6b7280;
-    }
-
-    .error-banner {
-        margin-top: 10px;
-        padding: 8px 10px;
-        border-radius: 10px;
-        background: rgba(127,29,29,0.35);
-        border: 1px solid rgba(248,113,113,0.6);
-        color: #fecaca;
-        font-size: 12px;
-    }
-
-    @media (max-width: 480px) {
-        header .title {
-            font-size: 16px;
-        }
-        .composer {
-            padding: 12px 12px 10px;
-        }
-        .post {
-            padding: 12px 12px 10px;
-        }
+        margin-top: 5px;
     }
 </style>
 </head>
 
 <body>
-
-<header>
-    <div class="logo-mark"><span>ن</span></div>
-    <div>
-        <div class="title">نـجـد | Najd</div>
-        <div class="subtitle">مساحة منشورات مؤقتة تعيش ٢٤ ساعة فقط</div>
-    </div>
-</header>
-
 <div class="container">
-    <div class="composer">
-        <div class="composer-top">
-            <div id="avatarPreview" class="avatar-preview"></div>
-            <div class="composer-main">
-                <textarea id="postInput" placeholder="اكتب ما يدور في بالك الآن..."></textarea>
-            </div>
-        </div>
-        <div class="composer-footer">
-            <div class="color-picker-wrapper">
-                <label for="colorPicker">لون صورتك:</label>
-                <input type="color" id="colorPicker">
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-                <div class="meta-info">
-                    <span id="charCount">0/280</span>
-                    <span class="dot"></span>
-                    <span>المنشور يحذف بعد ٢٤ ساعة</span>
-                </div>
-                <button id="postButton" onclick="addPost()">
-                    نشر
-                </button>
-            </div>
-        </div>
-        <div id="errorBox" class="error-banner" style="display:none;"></div>
+
+    <h2>Najd Threads</h2>
+
+    <div class="input-box">
+        <label>اسم المستخدم:</label>
+        <input id="authorInput" type="text" placeholder="اكتب اسمك هنا">
+
+        <label style="margin-top:15px;">اختر لون الدائرة:</label>
+        <input id="colorInput" type="color" value="#ff6b00">
+
+        <label style="margin-top:15px;">المحتوى:</label>
+        <textarea id="contentInput" rows="3" placeholder="اكتب منشورك..."></textarea>
+
+        <button onclick="addPost()">نشر</button>
     </div>
 
-    <div class="feed-header">
-        <span>المنشورات <strong>(الأقدم → الأحدث)</strong></span>
-        <span id="feedInfo">جارِ التحميل...</span>
-    </div>
+    <div id="posts"></div>
 
-    <div id="posts" class="feed"></div>
 </div>
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-    const SUPABASE_URL = "https://yiwgqohertsftgnpcqoh.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = supabase.createClient(
+    "https://yiwgqohertsftgnpcqoh.supabase.co",
+    "sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX"
+);
 
-    const postInput = document.getElementById("postInput");
-    const postsDiv = document.getElementById("posts");
-    const feedInfo = document.getElementById("feedInfo");
-    const errorBox = document.getElementById("errorBox");
-    const charCount = document.getElementById("charCount");
-    const postButton = document.getElementById("postButton");
-    const avatarPreview = document.getElementById("avatarPreview");
-    const colorPicker = document.getElementById("colorPicker");
+// إضافة منشور
+async function addPost() {
+    const author = document.getElementById("authorInput").value.trim();
+    const color = document.getElementById("colorInput").value;
+    const content = document.getElementById("contentInput").value.trim();
 
-    const MAX_LENGTH = 280;
-    const DAY_MS = 24 * 60 * 60 * 1000;
-
-    // هوية المتصفح
-    let clientId = localStorage.getItem("najd_client_id");
-    if (!clientId) {
-        clientId = crypto.randomUUID ? crypto.randomUUID() : ("client-" + Math.random().toString(36).slice(2));
-        localStorage.setItem("najd_client_id", clientId);
+    if (!author || !content) {
+        alert("الرجاء كتابة الاسم والمحتوى");
+        return;
     }
 
-    // لون المستخدم
-    let userColor = localStorage.getItem("najd_user_color");
-    if (!userColor) {
-        userColor = "#4a8cff";
-        localStorage.setItem("najd_user_color", userColor);
-    }
-    colorPicker.value = userColor;
-    avatarPreview.style.background = userColor;
+    await supabase.from("posts").insert([
+        { author, color, content }
+    ]);
 
-    colorPicker.addEventListener("input", () => {
-        userColor = colorPicker.value;
-        localStorage.setItem("najd_user_color", userColor);
-        avatarPreview.style.background = userColor;
+    document.getElementById("contentInput").value = "";
+}
+
+// تحميل المنشورات
+async function loadPosts() {
+    const { data } = await supabase
+        .from("posts")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+    displayPosts(data);
+}
+
+// عرض المنشورات
+function displayPosts(posts) {
+    const container = document.getElementById("posts");
+    container.innerHTML = "";
+
+    const now = Date.now();
+
+    posts.forEach(post => {
+        const postTime = new Date(post.created_at).getTime();
+        const diff = now - postTime;
+
+        // حذف المنشورات بعد 24 ساعة
+        if (diff > 24 * 60 * 60 * 1000) {
+            supabase.from("posts").delete().eq("id", post.id);
+            return;
+        }
+
+        const div = document.createElement("div");
+        div.className = "post";
+
+        div.innerHTML = `
+            <div class="avatar" style="background:${post.color || '#ff6b00'}"></div>
+            <div class="post-content">
+                <div class="author">${post.author || "مستخدم"}</div>
+                <div>${post.content}</div>
+                <div class="time">${new Date(post.created_at).toLocaleString()}</div>
+            </div>
+        `;
+
+        container.appendChild(div);
     });
+}
 
-    // عداد الأحرف
-    postInput.addEventListener("input", () => {
-        const len = postInput.value.length;
-        charCount.textContent = `${len}/${MAX_LENGTH}`;
-        if (len > MAX_LENGTH) {
-            charCount.style.color = "#f97373";
-            postButton.disabled = true;
-        } else {
-            charCount.style.color = "#9ca3af";
-            postButton.disabled = false;
-        }
-    });
+// Realtime
+supabase.channel("realtime:posts")
+    .on("postgres_changes", { event: "*", schema: "public", table: "posts" }, loadPosts)
+    .subscribe();
 
-    function showError(msg) {
-        errorBox.textContent = msg;
-        errorBox.style.display = "block";
-        setTimeout(() => {
-            errorBox.style.display = "none";
-        }, 4000);
-    }
-
-    // لون عشوائي لباقي المنشورات (غير المستخدم الحالي)
-    function colorFromString(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const h = (hash % 360 + 360) % 360;
-        return `hsl(${h}, 70%, 55%)`;
-    }
-
-    // إضافة منشور
-    async function addPost() {
-        const content = postInput.value.trim();
-        if (!content) return;
-        if (content.length > MAX_LENGTH) {
-            showError("عدد الأحرف تجاوز الحد المسموح.");
-            return;
-        }
-
-        postButton.disabled = true;
-
-        const { error } = await supabaseClient
-            .from("posts")
-            .insert([{ content, client_id: clientId }]);
-
-        postButton.disabled = false;
-
-        if (error) {
-            showError("حدث خطأ أثناء النشر، حاول مرة أخرى.");
-            console.error(error);
-            return;
-        }
-
-        postInput.value = "";
-        charCount.textContent = `0/${MAX_LENGTH}`;
-    }
-
-    // حذف المنشورات الأقدم من ٢٤ ساعة
-    async function cleanupOldPosts() {
-        const cutoff = new Date(Date.now() - DAY_MS).toISOString();
-        const { error } = await supabaseClient
-            .from("posts")
-            .delete()
-            .lt("created_at", cutoff);
-
-        if (error) {
-            console.warn("Cleanup error:", error);
-        }
-    }
-
-    // جلب المنشورات
-    async function loadPosts() {
-        feedInfo.textContent = "جارِ التحديث...";
-        await cleanupOldPosts();
-
-        const { data, error } = await supabaseClient
-            .from("posts")
-            .select("*")
-            .order("created_at", { ascending: true });
-
-        if (error) {
-            showError("تعذر تحميل المنشورات.");
-            console.error(error);
-            feedInfo.textContent = "خطأ في التحميل";
-            return;
-        }
-
-        renderPosts(data || []);
-    }
-
-    function renderPosts(posts) {
-        postsDiv.innerHTML = "";
-
-        if (!posts.length) {
-            postsDiv.innerHTML = `
-                <div class="empty-state">
-                    لا توجد منشورات بعد.
-                    <span>ابدأ أول منشور لك في نـجـد، وسيظهر هنا لمدة ٢٤ ساعة فقط.</span>
-                </div>
-            `;
-            feedInfo.textContent = "لا توجد منشورات حالياً";
-            return;
-        }
-
-        const now = Date.now();
-
-        posts.forEach(post => {
-            const created = new Date(post.created_at);
-            const ageMs = now - created.getTime();
-            if (ageMs >= DAY_MS) return; // احتياط إضافي
-
-            const postEl = document.createElement("div");
-            postEl.className = "post";
-
-            const avatar = document.createElement("div");
-            avatar.className = "post-avatar";
-
-            // لو المنشور من هذا المتصفح → استخدم لون المستخدم
-            if (post.client_id === clientId) {
-                avatar.style.background = userColor;
-            } else {
-                avatar.style.background = colorFromString(String(post.id || post.created_at));
-            }
-
-            const main = document.createElement("div");
-            main.className = "post-main";
-
-            const content = document.createElement("div");
-            content.className = "post-content";
-            content.textContent = post.content;
-
-            const meta = document.createElement("div");
-            meta.className = "post-meta";
-
-            const timeStr = created.toLocaleString("ar-SA");
-            const timeSpan = document.createElement("span");
-            timeSpan.textContent = timeStr;
-
-            const badge = document.createElement("span");
-            badge.className = "badge";
-            badge.textContent = post.client_id === clientId ? "منشورك" : "منشور عام";
-
-            const remainingMs = DAY_MS - ageMs;
-            const hoursLeft = Math.max(1, Math.floor(remainingMs / (60 * 60 * 1000)));
-            const expires = document.createElement("span");
-            expires.className = "expires";
-            expires.textContent = `يحذف خلال ~ ${hoursLeft} ساعة`;
-
-            meta.appendChild(timeSpan);
-            meta.appendChild(badge);
-            meta.appendChild(expires);
-
-            main.appendChild(content);
-            main.appendChild(meta);
-
-            postEl.appendChild(avatar);
-            postEl.appendChild(main);
-
-            postsDiv.appendChild(postEl);
-        });
-
-        feedInfo.textContent = `عدد المنشورات: ${postsDiv.children.length}`;
-    }
-
-    // Realtime: ظهور المنشورات الجديدة فورياً
-    let realtimeSubscribed = false;
-
-    async function setupRealtime() {
-        if (realtimeSubscribed) return;
-        realtimeSubscribed = true;
-
-        supabaseClient
-            .channel("public:posts")
-            .on(
-                "postgres_changes",
-                { event: "INSERT", schema: "public", table: "posts" },
-                payload => {
-                    const newPost = payload.new;
-                    const now = Date.now();
-                    const created = new Date(newPost.created_at).getTime();
-                    if (now - created >= DAY_MS) return; // لو قديمة لا نعرضها
-
-                    // نضيفه في آخر القائمة (لأن الترتيب من الأقدم إلى الأحدث)
-                    const currentPosts = [];
-                    const nodes = postsDiv.querySelectorAll(".post");
-                    // بدل ما نقرأ من DOM، أسهل نعيد تحميل القائمة كاملة:
-                    loadPosts();
-                }
-            )
-            .subscribe(status => {
-                if (status === "SUBSCRIBED") {
-                    console.log("Realtime subscribed on posts");
-                }
-            });
-    }
-
-    // تشغيل أولي
-    (async () => {
-        await loadPosts();
-        await setupRealtime();
-    })();
+loadPosts();
 </script>
 
 </body>
