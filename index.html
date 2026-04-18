@@ -1,93 +1,283 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Najd | نـجـد</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Najd | نجد</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #16181c;
+            --text-main: #eff3f4;
+            --text-secondary: #71767b;
+            --accent-color: #1d9bf0;
+            --border-color: #2f3336;
+        }
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-        color: #fff;
-        font-family: system-ui, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .box {
-        width: 90%;
-        max-width: 400px;
-        background: #111;
-        padding: 25px;
-        border-radius: 15px;
-        border: 1px solid #222;
-    }
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 10px;
-        border-radius: 10px;
-        border: none;
-        background: #1a1a1a;
-        color: #fff;
-        font-size: 16px;
-    }
+        header {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
 
-    button {
-        width: 100%;
-        padding: 14px;
-        background: #fff;
-        color: #000;
-        border: none;
-        border-radius: 10px;
-        font-size: 17px;
-        font-weight: bold;
-        margin-top: 20px;
-        cursor: pointer;
-    }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
 
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-</style>
+        .input-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        textarea {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 18px;
+            resize: none;
+            outline: none;
+            margin-bottom: 15px;
+            min-height: 100px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-dot.active {
+            border-color: white;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #posts-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .post-content {
+            flex-grow: 1;
+        }
+
+        .post-header {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 4px;
+        }
+
+        .author-name {
+            font-weight: bold;
+        }
+
+        .post-time {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .post-text {
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header, .input-container, #posts-container {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="box">
-    <h2>Najd | نـجـد</h2>
+    <header>
+        <div class="logo">Najd | نجد</div>
+    </header>
 
-    <label>اسم المستخدم:</label>
-    <input id="username" type="text" placeholder="اكتب اسمك">
+    <div class="input-container">
+        <textarea id="postInput" placeholder="ماذا يحدث في نجد؟"></textarea>
+        <div class="controls">
+            <div class="color-picker" id="colorPicker">
+                <div class="color-dot active" style="background: #ff4500;" data-color="#ff4500"></div>
+                <div class="color-dot" style="background: #7ed321;" data-color="#7ed321"></div>
+                <div class="color-dot" style="background: #4a90e2;" data-color="#4a90e2"></div>
+                <div class="color-dot" style="background: #f5a623;" data-color="#f5a623"></div>
+                <div class="color-dot" style="background: #9013fe;" data-color="#9013fe"></div>
+            </div>
+            <button id="sendBtn">نشر</button>
+        </div>
+    </div>
 
-    <label style="margin-top:15px;">اختر لون الصورة الشخصية:</label>
-    <input id="usercolor" type="color" value="#ff6b00">
+    <div id="posts-container">
+        </div>
 
-    <button onclick="saveData()">Save</button>
-</div>
+    <script>
+        // إعدادات Supabase من معلوماتك
+        const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
+        const SUPABASE_KEY = 'sbpublishableQ2n4xAgOpIbcXjiuzTToJg_vtpAkBHX'; // تنبيه: استخدم المفتاح العام فقط
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<script>
-function saveData() {
-    const name = document.getElementById("username").value.trim();
-    const color = document.getElementById("usercolor").value;
+        let selectedColor = '#ff4500';
 
-    if (!name) {
-        alert("الرجاء كتابة اسم المستخدم ");
-        return;
-    }
+        // اختيار اللون
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                document.querySelector('.color-dot.active').classList.remove('active');
+                dot.classList.add('active');
+                selectedColor = dot.getAttribute('data-color');
+            });
+        });
 
-    localStorage.setItem("najd_name", name);
-    localStorage.setItem("najd_color", color);
+        // جلب المنشورات
+        async function fetchPosts() {
+            // حساب وقت "قبل 24 ساعة من الآن"
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-    window.location.href = "timeline.html";
-}
-</script>
+            const { data, error } = await supabase
+                .from('posts')
+                .select('*')
+                .gt('created_at', yesterday) // جلب فقط ما هو أحدث من 24 ساعة
+                .order('created_at', { ascending: true }); // من الأقدم إلى الأحدث (الجديد بالأسفل)
 
+            if (error) console.error('Error:', error);
+            else renderPosts(data);
+        }
+
+        function renderPosts(posts) {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = '';
+            posts.forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = 'post';
+                const timeStr = new Date(post.created_at).toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'});
+                
+                postEl.innerHTML = `
+                    <div class="avatar" style="background-color: ${post.color || '#555'}"></div>
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="author-name">${post.author || 'مستخدم نجد'}</span>
+                            <span class="post-time"> • ${timeStr}</span>
+                        </div>
+                        <div class="post-text">${post.content}</div>
+                    </div>
+                `;
+                container.appendChild(postEl);
+            });
+            // النزول لآخر المنشورات تلقائياً
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        // إرسال منشور جديد
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+            const content = document.getElementById('postInput').value;
+            if (!content.trim()) return;
+
+            document.getElementById('sendBtn').disabled = true;
+
+            const { error } = await supabase
+                .from('posts')
+                .insert([
+                    { 
+                        content: content, 
+                        color: selectedColor, 
+                        author: 'مستخدم' // يمكنك جعل هذا عشوائياً أيضاً
+                    }
+                ]);
+
+            if (error) {
+                alert('حدث خطأ أثناء النشر');
+            } else {
+                document.getElementById('postInput').value = '';
+                fetchPosts();
+            }
+            document.getElementById('sendBtn').disabled = false;
+        });
+
+        // التحديث التلقائي كل دقيقة
+        setInterval(fetchPosts, 60000);
+        
+        // التحميل الأول
+        fetchPosts();
+    </script>
 </body>
 </html>
