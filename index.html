@@ -2,125 +2,40 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستخرج الأصوات بالذكاء الاصطناعي</title>
-    <style>
-        :root {
-            --bg: #0b1020;
-            --card: #161b2e;
-            --accent: #38bdf8;
-            --text: #f9fafb;
-        }
-        body {
-            font-family: system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-        .container {
-            background: var(--card);
-            padding: 2rem;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-        .upload-area {
-            border: 2px dashed var(--accent);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-            cursor: pointer;
-        }
-        button {
-            background: var(--accent);
-            color: var(--bg);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1.1rem;
-        }
-        button:disabled { background: #555; cursor: not-allowed; }
-        .status { margin-top: 1rem; font-size: 0.9rem; color: #9ca3af; }
-        audio { width: 100%; margin-top: 10px; }
-        .result-section { margin-top: 2rem; display: none; }
-    </style>
+    <title>متجري الصغير</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>متجري الإلكتروني</h1>
+    </header>
 
-    <div class="container">
-        <h1>إزالة الموسيقى 🎙️</h1>
-        <p>افصل الصوت عن الموسيقى باستخدام الذكاء الاصطناعي داخل متصفحك</p>
+    <main>
+        <section id="products-list">
+            <h2>المنتجات</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <h3>سماعات لاسلكية</h3>
+                    <p>السعر: 150 ريال</p>
+                    <button onclick="addToCart('سماعات لاسلكية', 150)">إضافة للسلة</button>
+                </div>
+                <div class="product-card">
+                    <h3>ساعة ذكية</h3>
+                    <p>السعر: 300 ريال</p>
+                    <button onclick="addToCart('ساعة ذكية', 300)">إضافة للسلة</button>
+                </div>
+            </div>
+        </section>
 
-        <div class="upload-area" onclick="document.getElementById('audioInput').click()">
-            <p id="fileName">اضغط هنا لرفع ملف صوتی (MP3/WAV)</p>
-            <input type="file" id="audioInput" hidden accept="audio/*">
-        </div>
+        <section id="cart-section">
+            <h2>سلة المشتريات</h2>
+            <ul id="cart-items">
+                </ul>
+            <p>الإجمالي: <span id="total-price">0</span> ريال</p>
+            <button id="checkout-btn" onclick="checkout()">إتمام الشراء</button>
+        </section>
+    </main>
 
-        <button id="processBtn" disabled>ابدأ الفصل الآن</button>
-        <div id="status" class="status">بانتظار رفع الملف...</div>
-
-        <div id="resultSection" class="result-section">
-            <h3>النتيجة:</h3>
-            <p>الصوت المستخرج (Vocals):</p>
-            <audio id="vocalsOutput" controls></audio>
-            <p style="margin-top:10px">الموسيقى (Background):</p>
-            <audio id="drumsOutput" controls></audio>
-        </div>
-    </div>
-
-    <script type="module">
-        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
-
-        const audioInput = document.getElementById('audioInput');
-        const processBtn = document.getElementById('processBtn');
-        const status = document.getElementById('status');
-        const resultSection = document.getElementById('resultSection');
-
-        let selectedFile = null;
-
-        audioInput.onchange = (e) => {
-            selectedFile = e.target.files[0];
-            if (selectedFile) {
-                document.getElementById('fileName').innerText = selectedFile.name;
-                processBtn.disabled = false;
-                status.innerText = "الملف جاهز للمعالجة";
-            }
-        };
-
-        processBtn.onclick = async () => {
-            processBtn.disabled = true;
-            status.innerText = "جاري تحميل نموذج الذكاء الاصطناعي (أول مرة فقط)...";
-
-            try {
-                // ملاحظة: هذه العملية تستهلك ذاكرة وقد تستغرق وقتاً حسب سرعة جهازك
-                // نستخدم نموذج 'fma-separation' الصغير ليناسب المتصفح
-                const separator = await pipeline('audio-classification', 'Xenova/distilhubert-finetuned-starcraft-ii-audio'); 
-                
-                status.innerText = "جاري معالجة الصوت... يرجى عدم إغلاق الصفحة";
-                
-                // تنبيه: فصل الصوت الفعلي "Source Separation" معقد جداً في المتصفح 
-                // الكود هنا يجهز لك البيئة، ولكن للفصل الحقيقي يفضل ربطه بـ API 
-                // مثل AudioSpleeter أو خدمات السحابية لضمان الجودة.
-
-                setTimeout(() => {
-                    status.innerText = "تمت العملية بنجاح!";
-                    resultSection.style.display = 'block';
-                }, 3000);
-
-            } catch (err) {
-                status.innerText = "حدث خطأ: " + err.message;
-                processBtn.disabled = false;
-            }
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
