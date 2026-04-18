@@ -1,189 +1,104 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>المتجر الإلكتروني - الرئيسية</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f5f5;
-      color: #222;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المحتوى الحر</title>
+    <style>
+        /* تصميم بسيط وأنيق يشبه ثريدز */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #000; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #1DB954; text-align: center; }
+        
+        /* صندوق الكتابة */
+        .post-box { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 80px; background: transparent; color: #fff; border: none; outline: none; resize: none; font-size: 16px; }
+        button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; float: left; }
+        button:hover { background: #ddd; }
 
-    header {
-      background: #111827;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+        /* قائمة المنشورات */
+        .feed { width: 100%; }
+        .post { background: #121212; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; animation: slideIn 0.3s ease; }
+        .post-time { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .post-content { font-size: 16px; line-height: 1.4; word-wrap: break-word; }
 
-    header .logo {
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-
-    nav a {
-      color: #e5e7eb;
-      text-decoration: none;
-      margin-left: 1rem;
-      font-size: 0.95rem;
-    }
-
-    nav a:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
-
-    main {
-      padding: 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: #fff;
-      padding: 2.5rem 2rem;
-      border-radius: 1rem;
-      text-align: center;
-    }
-
-    .hero h1 {
-      margin: 0 0 1rem;
-      font-size: 2rem;
-    }
-
-    .hero p {
-      margin: 0 0 1.5rem;
-      font-size: 1rem;
-      color: #e5e7eb;
-    }
-
-    .hero a {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: #f97316;
-      color: #111827;
-      text-decoration: none;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .hero a:hover {
-      background: #fb923c;
-    }
-
-    .features {
-      margin-top: 2.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .feature {
-      background: #ffffff;
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-    }
-
-    .feature h3 {
-      margin-top: 0;
-      margin-bottom: 0.5rem;
-      font-size: 1.05rem;
-    }
-
-    .feature p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    footer {
-      margin-top: 3rem;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #6b7280;
-    }
-
-    .cart-indicator {
-      background: #f97316;
-      color: #111827;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-
-      nav a {
-        margin-left: 0.5rem;
-      }
-    }
-  </style>
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">متجر O الإلكتروني</div>
-    <nav>
-      <a href="index.html">الرئيسية</a>
-      <a href="products.html">المنتجات</a>
-      <a href="cart.html">
-        <span class="cart-indicator" id="cartCount">0</span>
-        السلة
-      </a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <h1>مرحباً بك في متجر O</h1>
-      <p>متجر بسيط لعرض المنتجات وإضافتها إلى السلة باستخدام HTML + CSS + JavaScript فقط.</p>
-      <a href="products.html">تصفح المنتجات</a>
-    </section>
+    <div class="container">
+        <h1>فضفض للبشر 🚀</h1>
 
-    <section class="features">
-      <div class="feature">
-        <h3>تجربة بسيطة</h3>
-        <p>واجهة نظيفة وسهلة الاستخدام بدون أي تعقيد.</p>
-      </div>
-      <div class="feature">
-        <h3>سلة مشتريات</h3>
-        <p>إضافة المنتجات إلى السلة وتحديث العدد مباشرة من المتصفح.</p>
-      </div>
-      <div class="feature">
-        <h3>قابلة للتطوير</h3>
-        <p>تقدر تضيف منتجات وصفحات جديدة بسهولة وتعدل على التصميم.</p>
-      </div>
-    </section>
-  </main>
+        <div class="post-box">
+            <textarea id="postInput" placeholder="وش قاعد يدور في بالك؟"></textarea>
+            <button onclick="sendPost()">نشر</button>
+            <div style="clear: both;"></div>
+        </div>
 
-  <footer>
-    &copy; <span id="year"></span> متجر O الإلكتروني
-  </footer>
+        <div id="feed" class="feed">
+            <p style="text-align: center; color: #666;">جاري تحميل المحتوى العشوائي...</p>
+        </div>
+    </div>
 
-  <script>
-    // تحديث سنة الفوتر
-    document.getElementById("year").textContent = new Date().getFullYear();
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // الروابط اللي أنت نسختها ركبتها لك هنا
+        const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // قراءة عدد العناصر في السلة من localStorage
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      document.getElementById("cartCount").textContent = cart.length;
-    }
+        // 1. وظيفة لجلب المنشورات من القاعدة وعرضها
+        async function getPosts() {
+            const { data, error } = await _supabase
+                .from('posts')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-    updateCartCount();
-  </script>
+            if (error) {
+                console.error('خطأ في التحميل:', error);
+                return;
+            }
+
+            const feedDiv = document.getElementById('feed');
+            feedDiv.innerHTML = ''; // تنظيف الشاشة قبل العرض
+
+            data.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="post-time">${new Date(post.created_at).toLocaleString('ar-SA')}</div>
+                    <div class="post-content">${post.content}</div>
+                `;
+                feedDiv.appendChild(postElement);
+            });
+        }
+
+        // 2. وظيفة لنشر كلام جديد
+        async function sendPost() {
+            const content = document.getElementById('postInput').value;
+            
+            if (!content.trim()) {
+                alert("اكتب شي أول!");
+                return;
+            }
+
+            const { error } = await _supabase
+                .from('posts')
+                .insert([{ content: content }]);
+
+            if (error) {
+                alert("مشكلة في النشر، تأكد من إعدادات الجدول");
+                console.error(error);
+            } else {
+                document.getElementById('postInput').value = ''; // مسح الصندوق
+                getPosts(); // تحديث القائمة فوراً
+            }
+        }
+
+        // تشغيل الجلب بمجرد فتح الصفحة
+        getPosts();
+    </script>
 </body>
 </html>
