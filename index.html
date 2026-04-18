@@ -10,19 +10,33 @@
 <style>
 * { box-sizing: border-box; }
 
+/* 🌙 الوضع الداكن (افتراضي) */
 body {
     font-family: "Cairo Play", sans-serif;
     background: #000;
     color: #fff;
     margin: 0;
+    transition: 0.3s;
+}
+
+/* ☀️ الوضع الفاتح */
+body.light {
+    background: #f5f5f5;
+    color: #000;
 }
 
 header {
-    text-align: center;
-    padding: 25px;
-    font-size: 28px;
-    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    font-size: 24px;
     border-bottom: 1px solid #222;
+}
+
+.settings-btn {
+    font-size: 22px;
+    cursor: pointer;
 }
 
 .container {
@@ -34,16 +48,20 @@ header {
 .post {
     background: #111;
     border: 1px solid #222;
-    padding: 18px;
-    border-radius: 14px;
-    margin-bottom: 18px;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+body.light .post {
+    background: #fff;
+    border: 1px solid #ddd;
 }
 
 .post-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
 }
 
 .avatar {
@@ -52,27 +70,22 @@ header {
     border-radius: 50%;
 }
 
-.username {
-    font-weight: bold;
-}
+.username { font-weight: bold; }
 
 .post-time {
     font-size: 12px;
     color: #888;
 }
 
-.post-content {
-    font-size: 17px;
-    margin-top: 8px;
-}
+.post-content { margin-top: 8px; }
 
 .delete-btn {
     margin-top: 10px;
     background: red;
     border: none;
     padding: 6px 10px;
-    border-radius: 8px;
-    color: #fff;
+    border-radius: 6px;
+    color: white;
 }
 
 .fab {
@@ -87,6 +100,7 @@ header {
     font-size: 30px;
 }
 
+/* مودال عام */
 .modal {
     position: fixed;
     bottom: 0;
@@ -105,13 +119,13 @@ header {
     border-radius: 20px 20px 0 0;
 }
 
-textarea {
+body.light .modal-box {
+    background: #fff;
+}
+
+textarea, input, select {
     width: 100%;
-    height: 120px;
-    background: #000;
-    border: 1px solid #333;
-    border-radius: 10px;
-    color: #fff;
+    margin-top: 10px;
     padding: 10px;
 }
 
@@ -128,7 +142,10 @@ textarea {
 
 <body>
 
-<header>Najd | نـجـد</header>
+<header>
+    <span>Najd | نـجـد</span>
+    <span class="settings-btn" onclick="openSettings()">⚙️</span>
+</header>
 
 <div class="container">
     <div id="feed"></div>
@@ -136,10 +153,29 @@ textarea {
 
 <button class="fab" onclick="openModal()">+</button>
 
+<!-- كتابة -->
 <div class="modal" id="modal">
     <div class="modal-box">
         <textarea id="postInput" placeholder="اكتب..."></textarea>
         <button class="send-btn" onclick="sendPost()">نشر</button>
+    </div>
+</div>
+
+<!-- إعدادات -->
+<div class="modal" id="settingsModal">
+    <div class="modal-box">
+        <h3>الإعدادات</h3>
+
+        <input id="nameInput" placeholder="اسم المستخدم">
+
+        <input type="color" id="colorInput">
+
+        <select id="themeSelect">
+            <option value="dark">داكن</option>
+            <option value="light">فاتح</option>
+        </select>
+
+        <button class="send-btn" onclick="saveSettings()">حفظ</button>
     </div>
 </div>
 
@@ -150,43 +186,61 @@ const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* 🔥 user setup مرة وحدة */
-let username = localStorage.getItem("username");
-let userColor = localStorage.getItem("userColor");
+/* بيانات المستخدم */
+let username = localStorage.getItem("username") || "مستخدم";
+let userColor = localStorage.getItem("userColor") || "#4da6ff";
+let theme = localStorage.getItem("theme") || "dark";
 
-if (!username) {
-    username = prompt("اكتب اسم المستخدم:");
-    localStorage.setItem("username", username);
+/* تطبيق الثيم */
+if (theme === "light") document.body.classList.add("light");
 
-    const colors = ["#ff4d4d","#4da6ff","#4dff88","#ffd24d","#b84dff"];
-    userColor = colors[Math.floor(Math.random()*colors.length)];
-    localStorage.setItem("userColor", userColor);
-}
-
-/* بوستاتي */
+/* تخزين بوستات */
 let myPosts = JSON.parse(localStorage.getItem("myPosts") || "[]");
 
+/* فتح */
 function openModal() {
     document.getElementById("modal").style.display = "flex";
 }
 
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
+function openSettings() {
+    document.getElementById("settingsModal").style.display = "flex";
+
+    document.getElementById("nameInput").value = username;
+    document.getElementById("colorInput").value = userColor;
+    document.getElementById("themeSelect").value = theme;
+}
+
+/* حفظ الإعدادات */
+function saveSettings() {
+    username = document.getElementById("nameInput").value || "مستخدم";
+    userColor = document.getElementById("colorInput").value;
+    theme = document.getElementById("themeSelect").value;
+
+    localStorage.setItem("username", username);
+    localStorage.setItem("userColor", userColor);
+    localStorage.setItem("theme", theme);
+
+    if (theme === "light") {
+        document.body.classList.add("light");
+    } else {
+        document.body.classList.remove("light");
+    }
+
+    document.getElementById("settingsModal").style.display = "none";
+    getPosts();
 }
 
 /* وقت */
 function timeAgo(date) {
     const seconds = Math.floor((Date.now() - new Date(date)) / 1000);
-    const intervals = { ساعة:3600, دقيقة:60 };
-
-    for (let key in intervals) {
-        const value = Math.floor(seconds / intervals[key]);
-        if (value >= 1) return `قبل ${value} ${key}`;
-    }
-    return "الآن";
+    if (seconds < 60) return "الآن";
+    const mins = Math.floor(seconds/60);
+    if (mins < 60) return `قبل ${mins} دقيقة`;
+    const hours = Math.floor(mins/60);
+    return `قبل ${hours} ساعة`;
 }
 
-/* جلب */
+/* عرض */
 async function getPosts() {
     const { data } = await _supabase.from('posts').select('*').order('created_at');
 
@@ -229,7 +283,7 @@ async function sendPost() {
     localStorage.setItem("myPosts", JSON.stringify(myPosts));
 
     document.getElementById("postInput").value = "";
-    closeModal();
+    document.getElementById("modal").style.display = "none";
     getPosts();
 }
 
