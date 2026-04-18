@@ -1,1095 +1,177 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Najd | نجد</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Inter font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Supabase JS -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg: #050509;
-      --bg-elevated: #0b0b12;
-      --bg-elevated-soft: #10101a;
-      --fg: #f5f5f7;
-      --fg-muted: #a0a0b5;
-      --accent: #00e5ff;
-      --accent-soft: rgba(0, 229, 255, 0.12);
-      --danger: #ff4b6a;
-      --border-subtle: #1b1b27;
-      --avatar-size: 32px;
-      --radius-lg: 999px;
-      --radius-md: 10px;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
-      --font-main: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    [data-theme="light"] {
-      --bg: #f5f5f8;
-      --bg-elevated: #ffffff;
-      --bg-elevated-soft: #f0f0f7;
-      --fg: #111119;
-      --fg-muted: #6b6b80;
-      --accent: #0066ff;
-      --accent-soft: rgba(0, 102, 255, 0.08);
-      --danger: #e53955;
-      --border-subtle: #dedee8;
-      --shadow-soft: 0 14px 35px rgba(0, 0, 0, 0.12);
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>نـجـد | Najd</title>
+
+<!-- Google Font: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
     body {
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top, #151528 0, #050509 55%);
-      color: var(--fg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
     }
-    .app-shell {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 16px 16px 80px;
-    }
+
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 14px;
-      margin-bottom: 10px;
-      border-radius: 999px;
-      background: linear-gradient(120deg, rgba(0, 229, 255, 0.12), rgba(176, 38, 255, 0.12));
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(18px);
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .brand-mark {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #ffffff, #00e5ff 40%, #b026ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: #050509;
-      box-shadow: 0 0 0 1px rgba(5, 5, 9, 0.4);
-    }
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-    .brand-title {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .brand-sub {
-      font-size: 11px;
-      opacity: 0.8;
-      white-space: nowrap;
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .chip-btn {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(5, 5, 9, 0.35);
-      color: var(--fg);
-      font-size: 11px;
-      padding: 6px 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
-      backdrop-filter: blur(12px);
-    }
-    .chip-btn span.icon {
-      font-size: 13px;
-    }
-    .chip-btn:hover {
-      background: rgba(5, 5, 9, 0.7);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    .chip-btn:active {
-      transform: translateY(1px);
-    }
-    .chip-btn.primary {
-      background: var(--accent-soft);
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-    .chip-btn.primary:hover {
-      background: rgba(0, 229, 255, 0.2);
-    }
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .meta-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--fg-muted);
-      padding: 4px 2px 6px;
-    }
-    .meta-row span {
-      opacity: 0.9;
-    }
-    .meta-row strong {
-      font-weight: 500;
-      color: var(--fg);
-    }
-    .posts-container {
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.55));
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: 10px 0 6px;
-      overflow: hidden;
-    }
-    .posts-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 4px 4px 2px;
-    }
-    .post-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      transition: background 0.12s ease;
-    }
-    .post-row:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .post-avatar {
-      width: var(--avatar-size);
-      height: var(--avatar-size);
-      border-radius: 999px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #050509;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 0 0 1px rgba(5, 5, 9, 0.5);
-    }
-    .post-body {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .post-topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--fg-muted);
-    }
-    .post-user {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 0;
-    }
-    .post-user-name {
-      font-weight: 500;
-      font-size: 11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .post-dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 999px;
-      background: var(--fg-muted);
-      opacity: 0.7;
-    }
-    .post-time {
-      opacity: 0.8;
-      white-space: nowrap;
-    }
-    .post-content {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--fg);
-      word-wrap: break-word;
-      white-space: pre-wrap;
-    }
-    .post-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 2px;
-    }
-    .post-action-btn {
-      border: none;
-      background: transparent;
-      color: var(--fg-muted);
-      font-size: 11px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 2px 4px;
-      border-radius: 999px;
-      transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
-    }
-    .post-action-btn span.icon {
-      font-size: 13px;
-    }
-    .post-action-btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--fg);
-    }
-    .post-action-btn:active {
-      transform: translateY(1px);
-    }
-    .post-action-btn.like.active {
-      color: #ff4b6a;
-    }
-    .post-action-btn.delete {
-      color: var(--danger);
-    }
-    .post-action-btn.delete:hover {
-      background: rgba(255, 75, 106, 0.12);
-    }
-    .empty-state {
-      padding: 18px 14px 16px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--fg-muted);
-    }
-    .empty-state strong {
-      color: var(--fg);
-      font-weight: 500;
-    }
-    .composer-shell {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-      padding: 0 12px 12px;
-      z-index: 20;
-    }
-    .composer {
-      width: 100%;
-      max-width: 720px;
-      border-radius: 18px;
-      background: var(--bg-elevated-soft);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: 8px 10px 8px;
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      pointer-events: auto;
-    }
-    .composer-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 11px;
-      color: var(--fg-muted);
-    }
-    .composer-header-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .composer-header-left span.dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-    .composer-header-right button {
-      border: none;
-      background: transparent;
-      color: var(--fg-muted);
-      font-size: 11px;
-      cursor: pointer;
-      padding: 2px 4px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.12s ease, color 0.12s ease;
-    }
-    .composer-header-right button:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--fg);
-    }
-    .composer-main {
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-    }
-    .composer-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 1px rgba(5, 5, 9, 0.5);
-    }
-    .composer-textarea {
-      flex: 1;
-      min-height: 40px;
-      max-height: 120px;
-      resize: none;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(5, 5, 9, 0.7);
-      color: var(--fg);
-      font-family: var(--font-main);
-      font-size: 13px;
-      padding: 8px 12px;
-      outline: none;
-      transition: border-color 0.12s ease, background 0.12s ease;
-    }
-    .composer-textarea::placeholder {
-      color: var(--fg-muted);
-      opacity: 0.8;
-    }
-    .composer-textarea:focus {
-      border-color: var(--accent);
-      background: rgba(5, 5, 9, 0.9);
-    }
-    .composer-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 2px;
-    }
-    .btn-primary {
-      border-radius: 999px;
-      border: none;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      background: var(--accent);
-      color: #050509;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 10px 25px rgba(0, 229, 255, 0.35);
-      transition: transform 0.08s ease, box-shadow 0.12s ease, opacity 0.12s ease;
-    }
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: default;
-      box-shadow: none;
-    }
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(0, 229, 255, 0.45);
-    }
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: 0 8px 18px rgba(0, 229, 255, 0.3);
-    }
-    .fab {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      border: none;
-      background: radial-gradient(circle at 30% 20%, #ffffff, var(--accent) 40%, #b026ff 100%);
-      color: #050509;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-      z-index: 25;
-      transition: transform 0.1s ease, box-shadow 0.12s ease;
-    }
-    .fab:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.85);
-    }
-    .fab:active {
-      transform: translateY(0);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
-    }
-    .color-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 40;
-    }
-    .color-modal {
-      width: 100%;
-      max-width: 360px;
-      border-radius: 18px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: 16px 16px 14px;
-    }
-    .color-modal-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .color-modal-sub {
-      font-size: 12px;
-      color: var(--fg-muted);
-      margin-bottom: 10px;
-    }
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .color-option {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 6px 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      background: rgba(5, 5, 9, 0.7);
-      transition: background 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
-    }
-    .color-option:hover {
-      background: rgba(5, 5, 9, 0.9);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-1px);
-    }
-    .color-swatch {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      box-shadow: 0 0 0 1px rgba(5, 5, 9, 0.6);
-      flex-shrink: 0;
-    }
-    .color-label {
-      font-size: 11px;
-      color: var(--fg-muted);
-    }
-    .color-modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      font-size: 11px;
-      color: var(--fg-muted);
-    }
-    footer {
-      margin-top: 10px;
-      padding: 8px 4px 16px;
-      font-size: 11px;
-      color: var(--fg-muted);
-      text-align: center;
-    }
-    @media (max-width: 480px) {
-      header {
-        border-radius: 16px;
-        padding-inline: 10px;
-      }
-      .brand-title {
-        font-size: 14px;
-      }
-      .brand-sub {
-        display: none;
-      }
-      .posts-container {
-        border-radius: 16px;
-      }
-      .composer {
-        border-radius: 16px;
-      }
-      .fab {
-        right: 14px;
-        bottom: 14px;
-        width: 44px;
-        height: 44px;
-      }
-    }
-  </style>
+        padding: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        border-bottom: 1px solid #222;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    textarea {
+        width: 100%;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        padding: 12px;
+        border-radius: 8px;
+        color: #fff;
+        resize: none;
+        font-size: 16px;
+        height: 90px;
+    }
+
+    button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 12px;
+        background: #4a8cff;
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    button:hover {
+        background: #3b6fd6;
+    }
+
+    .post {
+        display: flex;
+        gap: 12px;
+        padding: 15px 0;
+        border-bottom: 1px solid #222;
+    }
+
+    .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .content {
+        flex: 1;
+        font-size: 16px;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+
+    .time {
+        font-size: 12px;
+        color: #aaa;
+        margin-top: 6px;
+    }
+</style>
 </head>
-<body data-theme="dark">
-  <div class="app-shell">
-    <header>
-      <div class="brand">
-        <div class="brand-mark">N</div>
-        <div class="brand-text">
-          <div class="brand-title" id="brandTitle">Najd | نجد</div>
-          <div class="brand-sub" id="brandSub">Realtime micro-thoughts from Najd</div>
-        </div>
-      </div>
-      <div class="header-actions">
-        <button class="chip-btn" id="langToggle">
-          <span class="icon">🌐</span>
-          <span id="langLabel">EN</span>
-        </button>
-        <button class="chip-btn primary" id="themeToggle">
-          <span class="icon">🌙</span>
-          <span id="themeLabel">Dark</span>
-        </button>
-      </div>
-    </header>
 
-    <main>
-      <div class="meta-row">
-        <span id="postCountLabel">0 posts</span>
-        <span id="statusLabel">Connecting…</span>
-      </div>
+<body>
 
-      <section class="posts-container">
-        <div class="posts-inner" id="postsList"></div>
-        <div class="empty-state" id="emptyState">
-          <strong>No posts yet.</strong><br>
-          Start the first thread from Najd.
-        </div>
-      </section>
-    </main>
+<header>نـجـد | Najd</header>
 
-    <footer>
-      © 2026 Najd — All rights reserved.
-    </footer>
-  </div>
+<div class="container">
+    <textarea id="postInput" placeholder="اكتب منشورك..."></textarea>
+    <button onclick="addPost()">نشر</button>
 
-  <!-- Composer -->
-  <div class="composer-shell">
-    <div class="composer" id="composer">
-      <div class="composer-header">
-        <div class="composer-header-left">
-          <span class="dot"></span>
-          <span id="composerTitle">New post</span>
-        </div>
-        <div class="composer-header-right">
-          <button id="composerCloseBtn">
-            <span class="icon">✕</span>
-            <span id="composerCloseLabel">Close</span>
-          </button>
-        </div>
-      </div>
-      <div class="composer-main">
-        <div class="composer-avatar" id="composerAvatar"></div>
-        <textarea id="composerInput" class="composer-textarea" rows="1" maxlength="280"
-          placeholder="What's happening in Najd?"></textarea>
-      </div>
-      <div class="composer-footer">
-        <button class="btn-primary" id="publishBtn">
-          <span class="icon">➤</span>
-          <span id="publishLabel">Publish</span>
-        </button>
-      </div>
-    </div>
-  </div>
+    <div id="posts"></div>
+</div>
 
-  <!-- FAB -->
-  <button class="fab" id="fabBtn">+</button>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Color modal -->
-  <div class="color-modal-backdrop" id="colorModalBackdrop">
-    <div class="color-modal">
-      <div class="color-modal-title" id="colorModalTitle">Choose your color</div>
-      <div class="color-modal-sub" id="colorModalSub">
-        This color will represent you in Najd.
-      </div>
-      <div class="color-grid" id="colorGrid"></div>
-      <div class="color-modal-footer" id="colorModalFooter">
-        Your choice is stored only on this device.
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ===== CONFIG =====
+<script>
     const SUPABASE_URL = "https://yiwgqohertsftgnpcqoh.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX";
+    const SUPABASE_KEY = "sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ===== STATE =====
-    let currentLang = localStorage.getItem("najd_lang") || "en"; // "en" | "ar"
-    let currentTheme = localStorage.getItem("najd_theme") || "dark"; // "dark" | "light"
-    let userId = localStorage.getItem("najd_user_id") || null;
-    let userColor = localStorage.getItem("najd_user_color") || null;
-    let isComposerOpen = false;
-    let isPublishing = false;
-    let postsCache = [];
-    let likesLocal = JSON.parse(localStorage.getItem("najd_likes") || "{}"); // { postId: true }
-
-    // content encoding: color::userId::text
-    function encodeContent(color, uid, text) {
-      return `${color}::${uid}::${text}`;
-    }
-    function decodeContent(raw) {
-      if (!raw) return { color: null, userId: null, text: "" };
-      const parts = raw.split("::");
-      if (parts.length >= 3) {
-        return {
-          color: parts[0],
-          userId: parts[1],
-          text: parts.slice(2).join("::")
-        };
-      }
-      return { color: null, userId: null, text: raw };
+    // كل مستخدم يحصل على لون ثابت
+    let userColor = localStorage.getItem("najd_user_color");
+    if (!userColor) {
+        userColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        localStorage.setItem("najd_user_color", userColor);
     }
 
-    // ===== UI ELEMENTS =====
-    const bodyEl = document.body;
-    const postsListEl = document.getElementById("postsList");
-    const emptyStateEl = document.getElementById("emptyState");
-    const postCountLabelEl = document.getElementById("postCountLabel");
-    const statusLabelEl = document.getElementById("statusLabel");
-    const langToggleEl = document.getElementById("langToggle");
-    const langLabelEl = document.getElementById("langLabel");
-    const themeToggleEl = document.getElementById("themeToggle");
-    const themeLabelEl = document.getElementById("themeLabel");
-    const brandTitleEl = document.getElementById("brandTitle");
-    const brandSubEl = document.getElementById("brandSub");
-    const composerEl = document.getElementById("composer");
-    const composerInputEl = document.getElementById("composerInput");
-    const composerAvatarEl = document.getElementById("composerAvatar");
-    const composerTitleEl = document.getElementById("composerTitle");
-    const composerCloseBtnEl = document.getElementById("composerCloseBtn");
-    const composerCloseLabelEl = document.getElementById("composerCloseLabel");
-    const publishBtnEl = document.getElementById("publishBtn");
-    const publishLabelEl = document.getElementById("publishLabel");
-    const fabBtnEl = document.getElementById("fabBtn");
-    const colorModalBackdropEl = document.getElementById("colorModalBackdrop");
-    const colorGridEl = document.getElementById("colorGrid");
-    const colorModalTitleEl = document.getElementById("colorModalTitle");
-    const colorModalSubEl = document.getElementById("colorModalSub");
-    const colorModalFooterEl = document.getElementById("colorModalFooter");
+    // إضافة منشور
+    async function addPost() {
+        const content = document.getElementById("postInput").value.trim();
+        if (!content) return;
 
-    // ===== LANG STRINGS =====
-    const STRINGS = {
-      en: {
-        brandSub: "Realtime micro-thoughts from Najd",
-        postsCount: (n) => n === 1 ? "1 post" : `${n} posts`,
-        statusConnecting: "Connecting…",
-        statusReady: "Live",
-        statusError: "Connection error",
-        emptyTitle: "No posts yet.",
-        emptyBody: "Start the first thread from Najd.",
-        composerTitle: "New post",
-        composerPlaceholder: "What's happening in Najd?",
-        composerClose: "Close",
-        publish: "Publish",
-        langLabel: "EN",
-        themeDark: "Dark",
-        themeLight: "Light",
-        like: "Like",
-        liked: "Liked",
-        delete: "Delete",
-        you: "You",
-        colorTitle: "Choose your color",
-        colorSub: "This color will represent you in Najd.",
-        colorFooter: "Your choice is stored only on this device."
-      },
-      ar: {
-        brandSub: "خواطر فورية من قلب نجد",
-        postsCount: (n) => n === 1 ? "منشور واحد" : `${n} منشورات`,
-        statusConnecting: "جاري الاتصال…",
-        statusReady: "متصل الآن",
-        statusError: "خطأ في الاتصال",
-        emptyTitle: "لا توجد منشورات بعد.",
-        emptyBody: "ابدأ أول خيط من نجد.",
-        composerTitle: "منشور جديد",
-        composerPlaceholder: "وش يصير في نجد؟",
-        composerClose: "إغلاق",
-        publish: "نشر",
-        langLabel: "عربي",
-        themeDark: "داكن",
-        themeLight: "فاتح",
-        like: "إعجاب",
-        liked: "أعجبني",
-        delete: "حذف",
-        you: "أنت",
-        colorTitle: "اختر لونك",
-        colorSub: "هذا اللون يمثّلك في نجد.",
-        colorFooter: "يتم حفظ اختيارك على هذا الجهاز فقط."
-      }
-    };
-
-    // ===== THEME & LANG INIT =====
-    function applyTheme() {
-      bodyEl.setAttribute("data-theme", currentTheme);
-      themeLabelEl.textContent = currentTheme === "dark"
-        ? STRINGS[currentLang].themeDark
-        : STRINGS[currentLang].themeLight;
-      themeToggleEl.querySelector(".icon").textContent = currentTheme === "dark" ? "🌙" : "☀️";
+        await supabaseClient.from("posts").insert([{ content }]);
+        document.getElementById("postInput").value = "";
+        loadPosts();
     }
 
-    function applyLang() {
-      const t = STRINGS[currentLang];
-      langLabelEl.textContent = t.langLabel;
-      brandSubEl.textContent = t.brandSub;
-      composerTitleEl.textContent = t.composerTitle;
-      composerInputEl.placeholder = t.composerPlaceholder;
-      composerCloseLabelEl.textContent = t.composerClose;
-      publishLabelEl.textContent = t.publish;
-      colorModalTitleEl.textContent = t.colorTitle;
-      colorModalSubEl.textContent = t.colorSub;
-      colorModalFooterEl.textContent = t.colorFooter;
-      statusLabelEl.textContent = t.statusConnecting;
-      updatePostCountLabel();
-      updateEmptyState();
-      if (currentLang === "ar") {
-        document.documentElement.lang = "ar";
-        document.documentElement.dir = "rtl";
-      } else {
-        document.documentElement.lang = "en";
-        document.documentElement.dir = "ltr";
-      }
-      renderPosts();
+    // حذف المنشورات الأقدم من 24 ساعة
+    async function cleanupOldPosts() {
+        const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+        await supabaseClient.from("posts").delete().lt("created_at", cutoff);
     }
 
-    function updatePostCountLabel() {
-      const t = STRINGS[currentLang];
-      postCountLabelEl.textContent = t.postsCount(postsCache.length);
-    }
+    // جلب المنشورات
+    async function loadPosts() {
+        await cleanupOldPosts();
 
-    function updateEmptyState() {
-      const t = STRINGS[currentLang];
-      if (postsCache.length === 0) {
-        emptyStateEl.style.display = "block";
-        emptyStateEl.innerHTML = `<strong>${t.emptyTitle}</strong><br>${t.emptyBody}`;
-      } else {
-        emptyStateEl.style.display = "none";
-      }
-    }
+        const { data } = await supabaseClient
+            .from("posts")
+            .select("*")
+            .order("created_at", { ascending: true });
 
-    // ===== USER ID & COLOR =====
-    function ensureUserId() {
-      if (!userId) {
-        userId = crypto.randomUUID();
-        localStorage.setItem("najd_user_id", userId);
-      }
-    }
+        const postsDiv = document.getElementById("posts");
+        postsDiv.innerHTML = "";
 
-    const COLOR_OPTIONS = [
-      { hex: "#39FF14", labelEn: "Neon Green", labelAr: "أخضر نيون" },
-      { hex: "#00E5FF", labelEn: "Neon Blue", labelAr: "أزرق نيون" },
-      { hex: "#B026FF", labelEn: "Neon Purple", labelAr: "بنفسجي نيون" },
-      { hex: "#FF2DAA", labelEn: "Neon Pink", labelAr: "وردي نيون" },
-      { hex: "#F9FF00", labelEn: "Neon Yellow", labelAr: "أصفر نيون" },
-      { hex: "#FF7A00", labelEn: "Neon Orange", labelAr: "برتقالي نيون" }
-    ];
+        data.forEach(post => {
+            const postEl = document.createElement("div");
+            postEl.className = "post";
 
-    function showColorModalIfNeeded() {
-      if (userColor) {
-        updateComposerAvatar();
-        return;
-      }
-      colorGridEl.innerHTML = "";
-      COLOR_OPTIONS.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "color-option";
-        const sw = document.createElement("div");
-        sw.className = "color-swatch";
-        sw.style.background = opt.hex;
-        const label = document.createElement("div");
-        label.className = "color-label";
-        label.textContent = currentLang === "ar" ? opt.labelAr : opt.labelEn;
-        btn.appendChild(sw);
-        btn.appendChild(label);
-        btn.addEventListener("click", () => {
-          userColor = opt.hex;
-          localStorage.setItem("najd_user_color", userColor);
-          colorModalBackdropEl.style.display = "none";
-          updateComposerAvatar();
+            const avatar = document.createElement("div");
+            avatar.className = "avatar";
+            avatar.style.background = userColor;
+
+            const content = document.createElement("div");
+            content.className = "content";
+            content.innerText = post.content;
+
+            const time = document.createElement("div");
+            time.className = "time";
+            time.innerText = new Date(post.created_at).toLocaleString("ar-SA");
+
+            const wrapper = document.createElement("div");
+            wrapper.appendChild(content);
+            wrapper.appendChild(time);
+
+            postEl.appendChild(avatar);
+            postEl.appendChild(wrapper);
+
+            postsDiv.appendChild(postEl);
         });
-        colorGridEl.appendChild(btn);
-      });
-      colorModalBackdropEl.style.display = "flex";
     }
 
-    function updateComposerAvatar() {
-      if (!userColor) return;
-      composerAvatarEl.style.background = userColor;
-    }
+    loadPosts();
+</script>
 
-    // ===== POSTS RENDERING =====
-    function formatTime(ts) {
-      const d = new Date(ts);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleString(currentLang === "ar" ? "ar-SA" : "en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        day: "2-digit",
-        month: "short"
-      });
-    }
-
-    function renderPosts() {
-      postsListEl.innerHTML = "";
-      const t = STRINGS[currentLang];
-      postsCache.forEach(post => {
-        const decoded = decodeContent(post.content);
-        const color = decoded.color || "#555";
-        const ownerId = decoded.userId;
-        const text = decoded.text;
-        const isMine = ownerId && ownerId === userId;
-
-        const row = document.createElement("div");
-        row.className = "post-row";
-
-        const avatar = document.createElement("div");
-        avatar.className = "post-avatar";
-        avatar.style.background = color;
-        avatar.textContent = "";
-        row.appendChild(avatar);
-
-        const body = document.createElement("div");
-        body.className = "post-body";
-
-        const top = document.createElement("div");
-        top.className = "post-topline";
-
-        const userPart = document.createElement("div");
-        userPart.className = "post-user";
-
-        const name = document.createElement("span");
-        name.className = "post-user-name";
-        name.textContent = isMine ? t.you : "Najd user";
-
-        const dot = document.createElement("span");
-        dot.className = "post-dot";
-
-        userPart.appendChild(name);
-        userPart.appendChild(dot);
-
-        const time = document.createElement("span");
-        time.className = "post-time";
-        time.textContent = formatTime(post.created_at);
-
-        top.appendChild(userPart);
-        top.appendChild(time);
-
-        const content = document.createElement("div");
-        content.className = "post-content";
-        content.textContent = text;
-
-        const actions = document.createElement("div");
-        actions.className = "post-actions";
-
-        const likeBtn = document.createElement("button");
-        likeBtn.className = "post-action-btn like";
-        likeBtn.type = "button";
-        const liked = !!likesLocal[post.id];
-        if (liked) likeBtn.classList.add("active");
-        likeBtn.innerHTML = `<span class="icon">❤</span><span>${liked ? t.liked : t.like}</span>`;
-        likeBtn.addEventListener("click", () => {
-          const nowLiked = !likesLocal[post.id];
-          likesLocal[post.id] = nowLiked;
-          if (!nowLiked) delete likesLocal[post.id];
-          localStorage.setItem("najd_likes", JSON.stringify(likesLocal));
-          likeBtn.classList.toggle("active", nowLiked);
-          likeBtn.innerHTML = `<span class="icon">❤</span><span>${nowLiked ? t.liked : t.like}</span>`;
-        });
-        actions.appendChild(likeBtn);
-
-        if (isMine) {
-          const delBtn = document.createElement("button");
-          delBtn.className = "post-action-btn delete";
-          delBtn.type = "button";
-          delBtn.innerHTML = `<span class="icon">🗑</span><span>${t.delete}</span>`;
-          delBtn.addEventListener("click", async () => {
-            try {
-              await supabase.from("posts").delete().eq("id", post.id);
-              postsCache = postsCache.filter(p => p.id !== post.id);
-              renderPosts();
-              updatePostCountLabel();
-              updateEmptyState();
-            } catch (e) {
-              console.error("Delete error", e);
-            }
-          });
-          actions.appendChild(delBtn);
-        }
-
-        body.appendChild(top);
-        body.appendChild(content);
-        body.appendChild(actions);
-
-        row.appendChild(body);
-        postsListEl.appendChild(row);
-      });
-      updateEmptyState();
-      updatePostCountLabel();
-    }
-
-    // ===== FETCH & REALTIME =====
-    async function fetchPosts() {
-      statusLabelEl.textContent = STRINGS[currentLang].statusConnecting;
-      try {
-        const { data, error } = await supabase
-          .from("posts")
-          .select("*")
-          .order("created_at", { ascending: true });
-        if (error) throw error;
-        postsCache = data || [];
-        renderPosts();
-        statusLabelEl.textContent = STRINGS[currentLang].statusReady;
-      } catch (e) {
-        console.error("Fetch error", e);
-        statusLabelEl.textContent = STRINGS[currentLang].statusError;
-      }
-    }
-
-    function setupRealtime() {
-      const channel = supabase
-        .channel("posts-realtime")
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: "posts" }, payload => {
-          const newPost = payload.new;
-          postsCache.push(newPost);
-          postsCache.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-          renderPosts();
-        })
-        .on("postgres_changes", { event: "DELETE", schema: "public", table: "posts" }, payload => {
-          const deleted = payload.old;
-          postsCache = postsCache.filter(p => p.id !== deleted.id);
-          renderPosts();
-        })
-        .subscribe();
-    }
-
-    // ===== COMPOSER =====
-    function openComposer() {
-      isComposerOpen = true;
-      composerEl.style.display = "flex";
-      setTimeout(() => {
-        composerInputEl.focus();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-      }, 50);
-    }
-
-    function closeComposer() {
-      isComposerOpen = false;
-      composerEl.style.display = "none";
-      composerInputEl.value = "";
-    }
-
-    async function publishPost() {
-      if (isPublishing) return;
-      const raw = composerInputEl.value.trim();
-      if (!raw) return;
-      ensureUserId();
-      if (!userColor) showColorModalIfNeeded();
-      isPublishing = true;
-      publishBtnEl.disabled = true;
-      try {
-        const encoded = encodeContent(userColor || "#555", userId, raw);
-        const { error } = await supabase.from("posts").insert({ content: encoded });
-        if (error) throw error;
-        closeComposer();
-      } catch (e) {
-        console.error("Publish error", e);
-      } finally {
-        isPublishing = false;
-        publishBtnEl.disabled = false;
-      }
-    }
-
-    // ===== EVENT LISTENERS =====
-    langToggleEl.addEventListener("click", () => {
-      currentLang = currentLang === "en" ? "ar" : "en";
-      localStorage.setItem("najd_lang", currentLang);
-      applyLang();
-    });
-
-    themeToggleEl.addEventListener("click", () => {
-      currentTheme = currentTheme === "dark" ? "light" : "dark";
-      localStorage.setItem("najd_theme", currentTheme);
-      applyTheme();
-    });
-
-    fabBtnEl.addEventListener("click", () => {
-      if (!userColor) {
-        showColorModalIfNeeded();
-      }
-      openComposer();
-    });
-
-    composerCloseBtnEl.addEventListener("click", () => {
-      closeComposer();
-    });
-
-    composerInputEl.addEventListener("input", () => {
-      composerInputEl.style.height = "auto";
-      composerInputEl.style.height = Math.min(composerInputEl.scrollHeight, 120) + "px";
-    });
-
-    publishBtnEl.addEventListener("click", () => {
-      publishPost();
-    });
-
-    composerInputEl.addEventListener("keydown", (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        e.preventDefault();
-        publishPost();
-      }
-    });
-
-    colorModalBackdropEl.addEventListener("click", (e) => {
-      if (e.target === colorModalBackdropEl && !userColor) {
-        // force choosing a color; do nothing on outside click
-        return;
-      }
-    });
-
-    // ===== INIT =====
-    (function init() {
-      ensureUserId();
-      applyTheme();
-      applyLang();
-      updateComposerAvatar();
-      showColorModalIfNeeded();
-      fetchPosts();
-      setupRealtime();
-    })();
-  </script>
 </body>
 </html>
