@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Najd | نـجـد</title>
 
-    <!-- استدعاء خط Cairo Play -->
+    <!-- خط -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo+Play:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -13,39 +13,32 @@
     <style>
         body {
             font-family: "Cairo Play", sans-serif;
-            font-weight: 400;
             background-color: #000;
             color: #fff;
             margin: 0;
-            padding: 0;
         }
 
-        /* العنوان */
         header {
             text-align: center;
             padding: 25px 0;
             font-size: 28px;
             font-weight: 700;
-            color: white;
             border-bottom: 1px solid #222;
         }
 
-        /* الحاوية */
         .container {
-            width: 100%;
             max-width: 550px;
             margin: auto;
             padding: 20px;
         }
 
-        /* المنشورات */
         .post {
             background: #111;
             border: 1px solid #222;
             padding: 18px;
             border-radius: 14px;
             margin-bottom: 18px;
-            transition: 0.2s;
+            animation: fadeIn 0.3s ease;
         }
 
         .post:hover {
@@ -57,23 +50,20 @@
             font-size: 13px;
             color: #888;
             margin-bottom: 10px;
-            font-weight: 300;
         }
 
         .post-content {
             font-size: 18px;
             line-height: 1.7;
             white-space: pre-wrap;
-            font-weight: 400;
         }
 
-        /* زر النشر العائم في وسط أسفل الشاشة بدون left:50% */
+        /* زر + بالنص الحقيقي */
         .fab {
             position: fixed;
             bottom: 24px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
+            left: 50%;
+            transform: translateX(-50%);
             background: #1DB954;
             color: #000;
             width: 65px;
@@ -83,7 +73,6 @@
             border: none;
             cursor: pointer;
             box-shadow: 0 0 15px #1db95480;
-            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,7 +82,10 @@
             background: #17a446;
         }
 
-        /* نافذة الكتابة */
+        .fab:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+
         .modal {
             position: fixed;
             top: 0; left: 0;
@@ -142,101 +134,143 @@
         .send-btn:hover {
             background: #17a446;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <header>Najd | نـجـد</header>
+<header>Najd | نـجـد</header>
 
-    <div class="container">
-        <div id="feed">
-            <p style="text-align:center;color:#666;">جاري تحميل المحتوى...</p>
-        </div>
+<div class="container">
+    <div id="feed">
+        <p style="text-align:center;color:#666;">جاري تحميل المحتوى...</p>
     </div>
+</div>
 
-    <!-- زر النشر العائم في المنتصف -->
-    <button class="fab" onclick="openModal()">+</button>
+<button class="fab" onclick="openModal()">+</button>
 
-    <!-- نافذة الكتابة -->
-    <div class="modal" id="modal">
-        <div class="modal-box">
-            <textarea id="postInput" placeholder="اكتب الي بخاطرك..."></textarea>
-            <button class="send-btn" onclick="sendPost()">نشر</button>
-        </div>
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <textarea id="postInput" placeholder="اكتب الي بخاطرك..."></textarea>
+        <button class="send-btn" onclick="sendPost()">نشر</button>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script>
-        const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+const SUPABASE_URL = 'https://yiwgqohertsftgnpcqoh.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Q2n4xAgOpIbcXjiuzTToJg_vtpAkBHX';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        function openModal() {
-            document.getElementById("modal").style.display = "flex";
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+/* إغلاق المودال عند الضغط برا */
+document.getElementById("modal").addEventListener("click", function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+
+/* Enter للنشر */
+document.getElementById("postInput").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendPost();
+    }
+});
+
+/* وقت ذكي */
+function timeAgo(date) {
+    const seconds = Math.floor((Date.now() - new Date(date)) / 1000);
+
+    const intervals = {
+        سنة: 31536000,
+        شهر: 2592000,
+        يوم: 86400,
+        ساعة: 3600,
+        دقيقة: 60
+    };
+
+    for (let key in intervals) {
+        const value = Math.floor(seconds / intervals[key]);
+        if (value >= 1) return `قبل ${value} ${key}`;
+    }
+    return "الآن";
+}
+
+async function getPosts() {
+    const { data, error } = await _supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+    if (error) return console.error(error);
+
+    const now = Date.now();
+    const feed = document.getElementById("feed");
+    feed.innerHTML = "";
+
+    data.forEach(async post => {
+        const postTime = new Date(post.created_at).getTime();
+        const hoursPassed = (now - postTime) / (1000 * 60 * 60);
+
+        if (hoursPassed >= 24) {
+            await _supabase.from('posts').delete().eq('id', post.id);
+            return;
         }
 
-        function closeModal() {
-            document.getElementById("modal").style.display = "none";
-        }
+        const el = document.createElement("div");
+        el.className = "post";
+        el.innerHTML = `
+            <div class="post-time">${timeAgo(post.created_at)}</div>
+            <div class="post-content">${post.content}</div>
+        `;
+        feed.appendChild(el);
+    });
+}
 
-        // جلب المنشورات (الأقدم فوق + حذف اللي تعدت 24 ساعة)
-        async function getPosts() {
-            const { data, error } = await _supabase
-                .from('posts')
-                .select('*')
-                .order('created_at', { ascending: true });
+async function sendPost() {
+    const content = document.getElementById("postInput").value;
 
-            if (error) return console.error(error);
+    if (!content.trim()) {
+        alert("اكتب شي أول!");
+        return;
+    }
 
-            const now = Date.now();
-            const feed = document.getElementById("feed");
-            feed.innerHTML = "";
+    const { error } = await _supabase
+        .from('posts')
+        .insert([{ content }]);
 
-            data.forEach(async post => {
-                const postTime = new Date(post.created_at).getTime();
-                const hoursPassed = (now - postTime) / (1000 * 60 * 60);
+    if (error) {
+        alert("خطأ في النشر");
+        return;
+    }
 
-                if (hoursPassed >= 24) {
-                    await _supabase.from('posts').delete().eq('id', post.id);
-                    return;
-                }
+    document.getElementById("postInput").value = "";
+    closeModal();
+    getPosts();
+}
 
-                const el = document.createElement("div");
-                el.className = "post";
-                el.innerHTML = `
-                    <div class="post-time">${new Date(post.created_at).toLocaleString('ar-SA')}</div>
-                    <div class="post-content">${post.content}</div>
-                `;
-                feed.appendChild(el);
-            });
-        }
-
-        async function sendPost() {
-            const content = document.getElementById("postInput").value;
-
-            if (!content.trim()) {
-                alert("اكتب شي أول!");
-                return;
-            }
-
-            const { error } = await _supabase
-                .from('posts')
-                .insert([{ content }]);
-
-            if (error) {
-                alert("خطأ في النشر");
-                return;
-            }
-
-            document.getElementById("postInput").value = "";
-            closeModal();
-            getPosts();
-        }
-
-        getPosts();
-    </script>
+getPosts();
+</script>
 
 </body>
 </html>
