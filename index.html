@@ -74,7 +74,7 @@ header {
 
 body.light header { background: #f5f5f5; }
 
-/* ⚙️ تنسيق أيقونة الإعدادات الجديدة */
+/* ⚙️ تنسيق أيقونة الإعدادات (الحجم الجديد 24px) */
 .settings-btn {
     display: flex;
     align-items: center;
@@ -83,6 +83,12 @@ body.light header { background: #f5f5f5; }
     transition: all 0.2s ease;
     padding: 5px;
     border-radius: 8px;
+}
+
+.settings-btn svg {
+    width: 24px; /* تم التعديل لـ 24 */
+    height: 24px; /* تم التعديل لـ 24 */
+    stroke-width: 2.2; /* سماكة الخط */
 }
 
 .settings-btn:hover { opacity: 0.8; }
@@ -204,7 +210,7 @@ body.light textarea, body.light input, body.light select {
     <header>
         <span>Najd | نـجـد</span>
         <span class="settings-btn" onclick="openSettings()">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>
             </svg>
         </span>
@@ -279,7 +285,7 @@ async function getPosts() {
         id: 'welcome_msg',
         author: 'إدارة نجد 🛡️', 
         color: '#1DB954',       
-        content: 'نورت نجد يا بطل! 🌟 الموقع موقعك، تقدر تغير اسمك من الأيقونة الجديدة فوق، وتختار اللون اللي يمثلك، وحتى شكل الموقع. خذ راحتك!',
+        content: 'نورت نجد يا بطل! 🌟 الموقع موقعك، تقدر تغير اسمك وتعدل ألوانك من الأيقونة الجديدة اللي فوق. خذ راحتك وانشر اللي بخاطرك!',
         created_at: new Date().toISOString()
     };
     displaySinglePost(welcomePost, true);
