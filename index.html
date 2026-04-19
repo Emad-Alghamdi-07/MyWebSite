@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -25,14 +26,25 @@ body.light {
     color: #000;
 }
 
+/* --- تعديل الهيدر ليصبح ثابتاً --- */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 20px;
     font-size: 24px;
     border-bottom: 2px solid #474747;
-    border-radius: 10px;
+    
+    /* التثبيت في الأعلى */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* لضمان ظهوره فوق المنشورات */
+    background: #000; /* خلفية سوداء للوضع الداكن */
+}
+
+/* تغيير خلفية الهيدر عند تفعيل الوضع الفاتح */
+body.light header {
+    background: #f5f5f5;
 }
 
 .settings-btn {
@@ -82,11 +94,12 @@ body.light .post {
 
 .delete-btn {
     margin-top: 10px;
-    background: red;
+    background: #ff4d4d;
     border: none;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: 6px;
     color: white;
+    cursor: pointer;
 }
 
 .fab {
@@ -99,6 +112,10 @@ body.light .post {
     height: 65px;
     border-radius: 50%;
     font-size: 30px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 /* مودال عام */
@@ -109,7 +126,9 @@ body.light .post {
     height: 100%;
     background: #000000cc;
     display: none;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2000;
 }
 
 .modal-box {
@@ -128,6 +147,16 @@ textarea, input, select {
     width: 100%;
     margin-top: 10px;
     padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #222;
+    color: white;
+}
+
+body.light textarea, body.light input, body.light select {
+    background: #eee;
+    color: black;
+    border: 1px solid #ccc;
 }
 
 .send-btn {
@@ -137,6 +166,9 @@ textarea, input, select {
     background: #1DB954;
     border: none;
     border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -154,28 +186,22 @@ textarea, input, select {
 
 <button class="fab" onclick="openModal()">+</button>
 
-<!-- كتابة -->
-<div class="modal" id="modal">
+<div class="modal" id="modal" onclick="if(event.target == this) this.style.display='none'">
     <div class="modal-box">
         <textarea id="postInput" placeholder="اكتب ما يدور بذهنك..."></textarea>
         <button class="send-btn" onclick="sendPost()">!نشر</button>
     </div>
 </div>
 
-<!-- إعدادات -->
-<div class="modal" id="settingsModal">
+<div class="modal" id="settingsModal" onclick="if(event.target == this) this.style.display='none'">
     <div class="modal-box">
         <h3>الإعدادات</h3>
-
         <input id="nameInput" placeholder="User Name">
-
-        <input type="color" id="colorInput">
-
+        <input type="color" id="colorInput" style="height: 50px;">
         <select id="themeSelect">
             <option value="dark">داكن</option>
             <option value="light">فاتح</option>
         </select>
-
         <button class="send-btn" onclick="saveSettings()">حفظ</button>
     </div>
 </div>
@@ -192,20 +218,19 @@ let username = localStorage.getItem("username") || "مستخدم";
 let userColor = localStorage.getItem("userColor") || "#4da6ff";
 let theme = localStorage.getItem("theme") || "dark";
 
-/* تطبيق الثيم */
+/* تطبيق الثيم عند التحميل */
 if (theme === "light") document.body.classList.add("light");
 
-/* تخزين بوستات */
+/* تخزين معرفات منشوراتي للحذف */
 let myPosts = JSON.parse(localStorage.getItem("myPosts") || "[]");
 
-/* فتح */
+/* فتح المودال */
 function openModal() {
     document.getElementById("modal").style.display = "flex";
 }
 
 function openSettings() {
     document.getElementById("settingsModal").style.display = "flex";
-
     document.getElementById("nameInput").value = username;
     document.getElementById("colorInput").value = userColor;
     document.getElementById("themeSelect").value = theme;
@@ -228,22 +253,28 @@ function saveSettings() {
     }
 
     document.getElementById("settingsModal").style.display = "none";
-    getPosts();
+    getPosts(); // إعادة التحميل لتحديث الألوان
 }
 
-/* وقت */
+/* حساب الوقت */
 function timeAgo(date) {
     const seconds = Math.floor((Date.now() - new Date(date)) / 1000);
     if (seconds < 60) return "الآن";
     const mins = Math.floor(seconds/60);
     if (mins < 60) return `قبل ${mins} دقيقة`;
     const hours = Math.floor(mins/60);
-    return `قبل ${hours} ساعة`;
+    if (hours < 24) return `قبل ${hours} ساعة`;
+    return new Date(date).toLocaleDateString('ar-EG');
 }
 
-/* عرض */
+/* جلب المنشورات */
 async function getPosts() {
-    const { data } = await _supabase.from('posts').select('*').order('created_at');
+    const { data, error } = await _supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) return console.error(error);
 
     const feed = document.getElementById("feed");
     feed.innerHTML = "";
@@ -254,7 +285,7 @@ async function getPosts() {
 
         el.innerHTML = `
             <div class="post-header">
-                <div class="avatar" style="background:${post.color}"></div>
+                <div class="avatar" style="background:${post.color || '#4da6ff'}"></div>
                 <div>
                     <div class="username">${post.author}</div>
                     <div class="post-time">${timeAgo(post.created_at)}</div>
@@ -270,15 +301,17 @@ async function getPosts() {
     });
 }
 
-/* نشر */
+/* نشر منشور جديد */
 async function sendPost() {
     const content = document.getElementById("postInput").value;
     if (!content.trim()) return;
 
-    const { data } = await _supabase
+    const { data, error } = await _supabase
         .from('posts')
         .insert([{ content, author: username, color: userColor }])
         .select();
+
+    if (error) return alert("حدث خطأ أثناء النشر");
 
     myPosts.push(data[0].id);
     localStorage.setItem("myPosts", JSON.stringify(myPosts));
@@ -288,8 +321,10 @@ async function sendPost() {
     getPosts();
 }
 
-/* حذف */
+/* حذف منشور */
 async function deletePost(id) {
+    if(!confirm("هل أنت متأكد من حذف هذا المنشور؟")) return;
+    
     await _supabase.from('posts').delete().eq('id', id);
 
     myPosts = myPosts.filter(p => p !== id);
@@ -298,6 +333,7 @@ async function deletePost(id) {
     getPosts();
 }
 
+// تشغيل الجلب عند فتح الصفحة
 getPosts();
 </script>
 
